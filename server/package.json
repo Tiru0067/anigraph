@@ -1,0 +1,31 @@
+{
+  "name": "anigraph-server",
+  "version": "1.0.0",
+  "description": "Backend API for AniGraph - Anime Recommendation & Knowledge Graph powered by CognoDB",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "seed": "node scripts/seed.js"
+  },
+  "keywords": [
+    "cognodb",
+    "neo4j",
+    "graph-database",
+    "opencypher",
+    "anime",
+    "recommendations"
+  ],
+  "author": "Tiru",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "neo4j-driver": "^6.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
