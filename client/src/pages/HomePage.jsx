@@ -1,34 +1,98 @@
-import { Link } from 'react-router-dom';
-import { Sparkles, Compass, ArrowRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { fetchStats, fetchAnimeList } from '../api/client.js';
+import { FALLBACK_ANIME } from '../constants/homeData.js';
+import HeroSection from '../components/home/HeroSection.jsx';
+import AnimeMarqueeWall from '../components/home/AnimeMarqueeWall.jsx';
+import StatsShowcase from '../components/home/StatsShowcase.jsx';
+import GraphFeatures from '../components/home/GraphFeatures.jsx';
 
 export const HomePage = () => {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [row1Anime, setRow1Anime] = useState(() =>
+    FALLBACK_ANIME.filter((_, idx) => idx % 2 === 0)
+  );
+  const [row2Anime, setRow2Anime] = useState(() =>
+    FALLBACK_ANIME.filter((_, idx) => idx % 2 !== 0)
+  );
+  const [stats, setStats] = useState({
+    totalAnime: 100,
+    totalStudios: 25,
+    totalGenres: 80,
+    totalRelationships: 500
+  });
+
+  useEffect(() => {
+    // 1. Fetch live database stats
+    const loadStats = async () => {
+      try {
+        const res = await fetchStats();
+        if (res && res.data) {
+          setStats({
+            totalAnime: res.data.totalAnime || 100,
+            totalStudios: res.data.totalStudios || 25,
+            totalGenres: res.data.totalGenres || 80,
+            totalRelationships: res.data.totalRelationships || 500
+          });
+        }
+      } catch (err) {
+        console.debug('Using cached stats data:', err.message);
+      }
+    };
+
+    // 2. Fetch anime from backend, shuffle them, and split into even (row 1) and odd (row 2)
+    const loadAnimeShowcase = async () => {
+      try {
+        const res = await fetchAnimeList({ limit: 40 });
+        if (res && res.data && res.data.length > 0) {
+          const shuffled = [...res.data].sort(() => Math.random() - 0.5);
+          const evenItems = shuffled.filter((_, idx) => idx % 2 === 0);
+          const oddItems = shuffled.filter((_, idx) => idx % 2 !== 0);
+
+          if (evenItems.length > 0) setRow1Anime(evenItems);
+          if (oddItems.length > 0) setRow2Anime(oddItems);
+        }
+      } catch (err) {
+        console.debug('Using fallback anime for marquee:', err.message);
+      }
+    };
+
+    loadStats();
+    loadAnimeShowcase();
+  }, []);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/discover?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      navigate('/discover');
+    }
+  };
+
+  const handleQuickSearch = (term) => {
+    navigate(`/discover?search=${encodeURIComponent(term)}`);
+  };
+
   return (
-    <div className="flex-1 flex flex-col items-center justify-center px-4 py-20 text-center">
-      <section className="max-w-4xl mx-auto flex flex-col items-center" aria-label="Hero Section">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-500/15 border border-primary-400/30 text-primary-200 text-xs font-medium mb-6 shadow-sm">
-          <Sparkles className="w-3.5 h-3.5 text-primary-300" />
-          <span>Graph-Powered Recommendation Engine</span>
-        </div>
+    <div className="w-full flex flex-col items-center overflow-x-hidden">
+      <HeroSection
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        onSearchSubmit={handleSearchSubmit}
+        onQuickSearch={handleQuickSearch}
+        totalAnime={stats.totalAnime}
+      />
 
-        <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight font-display text-typography-100 max-w-3xl mb-4">
-          Explore Anime via <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-200 to-primary-100">Knowledge Graph</span>
-        </h1>
+      <AnimeMarqueeWall
+        row1Anime={row1Anime}
+        row2Anime={row2Anime}
+      />
 
-        <p className="text-typography-300 text-base sm:text-lg max-w-2xl mb-8 leading-relaxed">
-          Discover anime through shared creative directors, animation studios, and deep thematic tag rankings using live graph database traversals.
-        </p>
+      <StatsShowcase stats={stats} />
 
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link
-            to="/discover"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary-500 hover:bg-primary-400 text-typography-000 font-medium text-sm transition-all shadow-lg shadow-primary-500/25 hover:shadow-primary-400/40"
-          >
-            <Compass className="w-4 h-4" />
-            <span>Explore Catalog</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
+      <GraphFeatures />
     </div>
   );
 };
