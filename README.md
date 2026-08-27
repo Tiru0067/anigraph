@@ -1,16 +1,40 @@
 # AniGraph — Anime Knowledge Graph & Recommendation Engine
 
-AniGraph is an anime recommendation web application built with a graph database (CognoDB Cloud / openCypher) using real data fetched from the AniList GraphQL API.
+AniGraph is a full-stack anime discovery and recommendation web application powered by a graph database (**CognoDB Cloud / openCypher**) and real-world metadata ingested from the **AniList GraphQL API**.
 
-Instead of just filtering by a single genre or relying on basic tag matching, this project models anime, animation studios, directors, voice actors, characters, genres, and tags as an interconnected graph to find meaningful recommendations based on shared creative staff and themes.
+Instead of basic keyword matching or flat genre filters, AniGraph models anime, animation studios, creative directors, voice actors, characters, genres, and thematic tags as a deeply connected knowledge graph. It traverses multi-hop graph relationships to generate context-aware recommendations and clearly explain *why* each title was recommended.
+
+---
+
+## Visual Showcase
+
+### 1. Home Page & Live Graph Explorer
+Interactive hero showcase with real-time graph node metrics, quick search suggestions, and a smooth infinite marquee anime wall.
+
+![Home Page Showcase](docs/screenshots/home.png)
+
+### 2. Catalog Explorer & Advanced Filtering
+Instant search with multi-criteria filtering by format (TV, Movie, OVA), genres, animation studios, and real-time sorting.
+
+![Discover Catalog Explorer](docs/screenshots/discover.png)
+
+### 3. Anime Details & Hero Artwork
+Dynamic hero banner with backdrop artwork, responsive title hierarchy, expandable synopsis, and complete metadata sidebar.
+
+![Anime Details Page](docs/screenshots/details-hero.png)
+
+### 4. Multi-Hop Graph Recommendations & Explainability
+Graph recommendations ranked with tag-rank weighted match scores, structured reason badges (genres, tags, studio, director), and 2-hop character cast voice actors.
+
+![Graph Recommendations & Cast](docs/screenshots/details-recommendations.png)
 
 ---
 
 ## Table of Contents
-1. [Project Overview](#project-overview)
-2. [Why a Graph Database?](#why-a-graph-database)
-3. [Graph Data Model](#graph-data-model)
-4. [Main Graph Queries Explained](#main-graph-queries-explained)
+1. [Why a Graph Database?](#why-a-graph-database)
+2. [Graph Data Model](#graph-data-model)
+3. [Core Graph Queries Explained](#core-graph-queries-explained)
+4. [Tech Stack](#tech-stack)
 5. [Project Structure](#project-structure)
 6. [Setup and Run Instructions](#setup-and-run-instructions)
 7. [API Endpoints](#api-endpoints)
@@ -18,49 +42,38 @@ Instead of just filtering by a single genre or relying on basic tag matching, th
 
 ---
 
-## Project Overview
-
-When people look for anime recommendations, they usually care about things like:
-- Was it made by the same director? (e.g. *Death Note* and *Attack on Titan* both directed by Tetsurou Araki)
-- Was it animated by the same studio? (e.g. *Jujutsu Kaisen* and *Chainsaw Man* by MAPPA)
-- Does it share specific themes? (e.g. *Magic*, *School*, *Romance* or *Time Travel*)
-
-In a standard SQL database, connecting all these different entities requires many junction tables and heavy multi-table joins. By modeling this data as a graph, we can traverse across directors, studios, and tags in 2 or more hops to recommend anime and explain exactly why they were recommended.
-
----
-
 ## Why a Graph Database?
 
-A relational database works well for flat tables, but exploring connections between different entities quickly becomes awkward and slow.
+A relational (SQL) database works well for tabular data, but modeling and querying deep multi-dimensional connections between entities quickly becomes complex, slow, and expensive.
 
-Here is what this project gains by using a graph database (CognoDB) over a relational database (SQL):
+Here is what AniGraph achieves by leveraging a native Graph Database (**CognoDB / openCypher**) over SQL:
 
-### 1. Multi-Hop Recommendations without Heavy Joins
-In SQL, to find anime related to Anime A through shared directors, studios, tags, and genres, you would need:
+### 1. 2-Hop Multi-Hop Recommendations without Expensive Joins
+In SQL, recommending anime through shared directors, studios, thematic tags, and genres requires:
 - 4 separate junction tables (`anime_directors`, `anime_studios`, `anime_tags`, `anime_genres`)
-- Multiple `INNER JOIN`s and `UNION` queries to combine the results
-- Complex `GROUP BY` and `CASE` statements to calculate a match score
+- Multi-table `JOIN`s, subqueries, and `UNION` statements
+- Heavy `GROUP BY` aggregations to score similarities
 
-In openCypher, the exact same multi-hop search is written as a simple 2-hop pattern traversal:
+In openCypher, this multi-hop traversal is expressed naturally in a concise 2-hop pattern:
 ```cypher
 MATCH (target:Anime {id: $id})-[r1]->(shared)<-[r2]-(rec:Anime)
 WHERE rec.id <> target.id
 ```
 
-### 2. Relationship Properties
-In AniList data, tags have a community relevance percentage (e.g. *Time Travel: 95%*). In a graph database, we store this `rank` property directly on the relationship itself (`-[rt:HAS_TAG {rank: 95}]->`). In SQL, relationship properties require an extra metadata column in a junction table and additional join logic.
+### 2. Relationship-Level Properties
+In AniList data, tags have community relevance ratings (e.g. *Time Travel: 95%*, *Kaiju: 93%*). In CognoDB, this `rank` is stored directly on the graph edge itself (`-[rt:HAS_TAG {rank: 93}]->`). In SQL, relationship properties demand separate columns in junction tables and extra join overhead.
 
-### 3. Clear and Explainable Results
-Because relationships have explicit types like `DIRECTED_BY`, `PRODUCED_BY`, and `HAS_TAG`, the database can return the exact list of reasons connecting two anime in one step:
-- "Same Director: Tetsurou Araki"
-- "Same Studio: WIT Studio"
-- "Shared Tag: Military"
+### 3. Native Explainability
+Because every relationship in the knowledge graph has an explicit edge label (`DIRECTED_BY`, `PRODUCED_BY`, `HAS_GENRE`, `HAS_TAG`), the database returns the exact traversal path in the same query:
+- *"Same Director: Tetsurou Araki"*
+- *"Same Animation Studio: WIT Studio"*
+- *"Shared Tag: Survival (92%)"*
 
 ---
 
 ## Graph Data Model
 
-### Diagram
+### Knowledge Graph Architecture
 
 ```mermaid
 graph TD
@@ -75,39 +88,37 @@ graph TD
     Anime -->|PRODUCED_BY| Studio
     Anime -->|DIRECTED_BY| Staff
     Anime -->|HAS_GENRE| Genre
-    Anime -->|"HAS_TAG (rank)"| Tag
+    Anime -->|"HAS_TAG {rank: int}"| Tag
     Anime -->|FEATURES| Character
     Character -->|VOICED_BY| VoiceActor
 ```
 
-### Nodes and Properties
+### Nodes & Properties
 
-- **`(:Anime)`**: `id` (AniList ID), `titleRomaji`, `titleEnglish`, `description`, `format`, `episodes`, `averageScore`, `seasonYear`, `coverImage`, `bannerImage`
-- **`(:Studio)`**: `id`, `name` (Filtered to main animation studios like WIT Studio, MAPPA, Madhouse)
+- **`(:Anime)`**: `id` (AniList ID), `titleRomaji`, `titleEnglish`, `titleNative`, `description`, `format`, `status`, `episodes`, `duration`, `averageScore`, `popularity`, `season`, `seasonYear`, `coverImage`, `bannerImage`
+- **`(:Studio)`**: `id`, `name` (Filtered to primary animation studios such as WIT Studio, MAPPA, Madhouse, Bones)
 - **`(:Staff)`**: `id`, `name` (Series and Chief Directors)
 - **`(:Character)`**: `id`, `name` (Main characters)
-- **`(:VoiceActor)`**: `id`, `name` (Japanese voice actors)
-- **`(:Genre)`**: `name` (e.g. Action, Fantasy, Drama, Mystery)
-- **`(:Tag)`**: `name` (e.g. Magic, Time Travel, Shounen, School)
+- **`(:VoiceActor)`**: `id`, `name` (Voice actors)
+- **`(:Genre)`**: `name` (e.g. Action, Fantasy, Drama, Mystery, Sci-Fi)
+- **`(:Tag)`**: `name` (e.g. Magic, Time Travel, Shounen, Female Protagonist)
 
 ### Relationships
 
 - **`(:Anime)-[:PRODUCED_BY]->(:Studio)`**: Connects an anime to its animation studio.
 - **`(:Anime)-[:DIRECTED_BY]->(:Staff)`**: Connects an anime to its series director.
 - **`(:Anime)-[:HAS_GENRE]->(:Genre)`**: Connects an anime to its genres.
-- **`(:Anime)-[:HAS_TAG {rank: int}]->(:Tag)`**: Connects an anime to its tags with a relevance rating (0 to 100).
+- **`(:Anime)-[:HAS_TAG {rank: int}]->(:Tag)`**: Connects an anime to thematic tags with rank relevance (0–100%).
 - **`(:Anime)-[:FEATURES]->(:Character)`**: Connects an anime to its main characters.
 - **`(:Character)-[:VOICED_BY]->(:VoiceActor)`**: Connects a character to their voice actor.
 
 ---
 
-## Main Graph Queries Explained
+## Core Graph Queries Explained
 
-All queries use parameterized openCypher via the official `neo4j-driver` (no string concatenation).
+All queries use parameterized openCypher via the official `neo4j-driver` connection pool.
 
-### 1. Multi-Hop Recommendation Query with Weighted Scoring
-
-This query finds anime that share connections with the target anime, computes a weighted score, and returns the list of reasons for the recommendation.
+### 1. Multi-Hop Recommendation Query with Weighted Scoring & Explainability
 
 ```cypher
 MATCH (target:Anime {id: $id})
@@ -140,30 +151,41 @@ ORDER BY matchScore DESC, rec.averageScore DESC
 LIMIT $limit
 ```
 
-**How the scoring works:**
-- **Shared Director**: `+6.0 points` (Directors have a strong creative influence on pacing and style).
-- **Shared Studio**: `+4.0 points` (Studios share visual and animation quality).
-- **Shared Tag**: Scaled dynamically by multiplying both tag relevance ratings: `(r1.rank * r2.rank) / 1000.0`. If a tag is 90% relevant in both shows, it adds `+8.1 points`. If it is only 50% in both, it adds `+2.5 points`.
-- **Shared Genre**: `+2.0 points` (Broad genre baseline).
+**Scoring Weight Breakdown:**
+- **Shared Creative Director**: `+6.0 points` (Directors shape tone, pacing, and visual storytelling).
+- **Shared Animation Studio**: `+4.0 points` (Studios maintain signature visual fidelity and animation styles).
+- **Shared Thematic Tag**: Scaled proportionally by multiplying both relevance ratings: `(r1.rank * r2.rank) / 1000.0` (A tag rated 90% in both adds `+8.1 points`).
+- **Shared Genre**: `+2.0 points` (Broad baseline similarity).
 
 ---
 
 ### 2. Anime Details with 2-Hop Voice Cast Traversal
 
-Fetches all details for an anime, including its genres, tags, studios, directors, and its main characters along with their voice actors in a single query:
-
 ```cypher
 MATCH (a:Anime {id: $id})
 OPTIONAL MATCH (a)-[:HAS_GENRE]->(g:Genre)
-OPTIONAL MATCH (a)-[:HAS_TAG]->(t:Tag)
+OPTIONAL MATCH (a)-[rt:HAS_TAG]->(t:Tag)
 OPTIONAL MATCH (a)-[:PRODUCED_BY]->(s:Studio)
 OPTIONAL MATCH (a)-[:DIRECTED_BY]->(d:Staff)
-OPTIONAL MATCH (a)-[:FEATURES]->(c:Character)-[:VOICED_BY]->(va:VoiceActor)
+OPTIONAL MATCH (a)-[:FEATURES]->(c:Character)
+OPTIONAL MATCH (c)-[:VOICED_BY]->(va:VoiceActor)
 RETURN a.id AS id,
+       a.titleRomaji AS titleRomaji,
        a.titleEnglish AS titleEnglish,
+       a.titleNative AS titleNative,
        a.description AS description,
+       a.format AS format,
+       a.status AS status,
+       a.episodes AS episodes,
+       a.duration AS duration,
+       a.averageScore AS averageScore,
+       a.popularity AS popularity,
+       a.season AS season,
+       a.seasonYear AS seasonYear,
+       a.coverImage AS coverImage,
+       a.bannerImage AS bannerImage,
        collect(DISTINCT g.name) AS genres,
-       collect(DISTINCT t.name) AS tags,
+       collect(DISTINCT { name: t.name, rank: coalesce(rt.rank, 60) }) AS tags,
        collect(DISTINCT s.name) AS studios,
        collect(DISTINCT d.name) AS directors,
        collect(DISTINCT {character: c.name, voiceActor: va.name}) AS cast
@@ -171,9 +193,7 @@ RETURN a.id AS id,
 
 ---
 
-### 3. Graph Summary Counts
-
-Counts the total number of nodes and relationships in the database:
+### 3. Summary Metrics & Knowledge Graph Counts
 
 ```cypher
 MATCH (a:Anime)
@@ -188,39 +208,61 @@ RETURN totalAnime, totalStudios, totalGenres, count(r) AS totalRelationships
 
 ---
 
+## Tech Stack
+
+### Frontend (Client)
+- **Framework**: React 19 + Vite
+- **Routing**: React Router 7
+- **Styling**: Tailwind CSS v4 + Curated Dark Palette
+- **Animations & Micro-interactions**: Motion (`motion/react`)
+- **Icons**: Lucide React
+- **Code Quality**: ESLint 9 + Prettier
+
+### Backend (Server)
+- **Runtime**: Node.js (ES Modules)
+- **Framework**: Express.js
+- **Database Driver**: `neo4j-driver` (Bolt Protocol)
+- **Database**: CognoDB Cloud / Memgraph (openCypher)
+- **Data Pipeline**: AniList GraphQL API Fetcher with local fallback caching (`seed-cache.json`)
+
+---
+
 ## Project Structure
 
 ```
 AniGraph/
-├── .env.example
-├── .gitignore
-├── README.md
-└── server/
-    ├── package.json
+├── docs/
+│   └── screenshots/              # High-resolution README screenshots
+│       ├── home.png
+│       ├── discover.png
+│       ├── details-hero.png
+│       └── details-recommendations.png
+├── client/                       # React frontend
+│   ├── src/
+│   │   ├── api/client.js         # API integration client
+│   │   ├── components/
+│   │   │   ├── common/           # AnimeCard, CustomDropdown, Pagination
+│   │   │   ├── detail/           # DetailHeroBanner, DetailSynopsis, DetailMetadataSidebar, DetailCastList, DetailRecommendations, DetailSkeleton
+│   │   │   ├── discover/         # DiscoverHeader, DiscoverFilters, DiscoverGrid, DiscoverEmptyState
+│   │   │   ├── home/             # HeroSection, AnimeMarqueeWall, StatsShowcase, GraphFeatures
+│   │   │   └── layout/           # Navbar, Footer, Layout
+│   │   ├── pages/                # HomePage, DiscoverPage, AnimeDetailPage, NotFoundPage
+│   │   ├── index.css             # Tailwind v4 theme & base typography
+│   │   └── main.jsx              # React app entry point
+│   ├── package.json
+│   └── vite.config.js
+└── server/                       # Express & CognoDB backend
     ├── scripts/
-    │   ├── schema.cypher          # Constraints for unique IDs and indexes
-    │   ├── seed.js                # Fetches AniList data and seeds CognoDB
-    │   └── seed-cache.json        # Local cache for instant offline seeding
+    │   ├── schema.cypher         # Constraint assertions & unique indexes
+    │   ├── seed.js               # Batch graph ingestion script
+    │   └── seed-cache.json       # Cached AniList dataset for instant seeding
     └── src/
-        ├── config/
-        │   ├── database.js        # Driver connection pool & query runner
-        │   └── env.js             # Environment variable loader
-        ├── controllers/
-        │   ├── anime.controller.js# /anime, /anime/:id, /anime/:id/recommendations
-        │   └── stats.controller.js# /stats
-        ├── middlewares/
-        │   └── errorHandler.js    # Global error handling middleware
-        ├── queries/
-        │   ├── anime.queries.js   # Parameterized Cypher queries
-        │   └── stats.queries.js   # Summary count query
-        ├── routes/
-        │   ├── anime.routes.js    # Anime router
-        │   ├── stats.routes.js    # Stats router
-        │   └── index.js           # Main router
-        ├── utils/
-        │   ├── anilist.js         # AniList GraphQL fetcher
-        │   └── logger.js          # Timestamped console logger
-        └── index.js               # Express server entry point
+        ├── config/               # Database pool & environment variables
+        ├── controllers/          # Anime & stats route controllers
+        ├── middlewares/          # Error handling middleware
+        ├── queries/              # Parameterized openCypher queries
+        ├── routes/               # Express REST API routes
+        └── index.js              # Server entry point
 ```
 
 ---
@@ -228,48 +270,64 @@ AniGraph/
 ## Setup and Run Instructions
 
 ### 1. Prerequisites
-- Node.js (v18 or higher)
-- A free account on CognoDB Cloud (https://console.cognodb.com)
+- **Node.js** (v18.0 or higher)
+- **npm** (v9.0 or higher)
+- A free account on **CognoDB Cloud** (https://console.cognodb.com)
 
-### 2. Create a Free CognoDB Instance
-1. Sign up at https://console.cognodb.com/signup.
-2. Create a free (c0) database instance.
-3. Copy your Bolt URI (`bolt+s://<instance-id>.databases.cognodb.cloud`) and the generated password for user `cognodb`.
+---
 
-### 3. Set Up Environment Variables
-Inside the `server/` folder, copy `.env.example` to `.env`:
+### 2. Configure Backend Database & Environment
+
+1. Sign up at [CognoDB Cloud](https://console.cognodb.com/signup) and create a free database instance.
+2. Copy your connection URI (`bolt+s://<instance-id>.databases.cognodb.cloud`) and password.
+3. In `server/`, create `.env` from `.env.example`:
+   ```bash
+   cd server
+   cp .env.example .env
+   ```
+4. Update `server/.env` with your CognoDB credentials:
+   ```env
+   COGNODB_URI=bolt+s://<your-instance-id>.databases.cognodb.cloud
+   COGNODB_USER=cognodb
+   COGNODB_PASSWORD=your_password_here
+   PORT=5000
+   NODE_ENV=development
+   ```
+
+---
+
+### 3. Install & Seed Database
+
 ```bash
-cd server
-cp .env.example .env
-```
-
-Add your CognoDB connection details in `server/.env`:
-```env
-COGNODB_URI=bolt+s://<your-instance-id>.databases.cognodb.cloud
-COGNODB_USER=cognodb
-COGNODB_PASSWORD=your_password_here
-PORT=5000
-NODE_ENV=development
-```
-
-### 4. Install Dependencies
-```bash
+# In server directory
 cd server
 npm install
-```
 
-### 5. Seed the Database
-Run the seed script to fetch top anime from AniList and populate CognoDB:
-```bash
+# Seed graph database with 250 anime nodes & relationships
 npm run seed
 ```
-*(This applies constraints from `schema.cypher` and batch-ingests the nodes and relationships in a few seconds).*
 
-### 6. Start the Server
+---
+
+### 4. Start Backend Server
+
 ```bash
+# In server directory
 npm run dev
 ```
-The server will start on `http://localhost:5000`.
+Backend will start on **`http://localhost:5000`**.
+
+---
+
+### 5. Start Frontend Client
+
+In a new terminal:
+```bash
+cd client
+npm install
+npm run dev
+```
+Frontend application will launch at **`http://localhost:5173`**.
 
 ---
 
@@ -277,15 +335,15 @@ The server will start on `http://localhost:5000`.
 
 | Method | Endpoint | Query Parameters | Description |
 | :--- | :--- | :--- | :--- |
-| `GET` | `/api/stats` | None | Returns total counts of anime, studios, genres, and relationships |
-| `GET` | `/api/anime` | `?search=titan&page=1&limit=20` | Returns a paginated list of anime or searches by title |
-| `GET` | `/api/anime/:id` | `id` (e.g. `16498`) | Returns anime details with studio, director, genres, and cast |
-| `GET` | `/api/anime/:id/recommendations` | `id`, `?limit=6` | Returns graph-powered recommendations with scores and match reasons |
+| `GET` | `/api/stats` | None | Returns total counts of anime, studios, genres, and graph relationships |
+| `GET` | `/api/anime` | `?search=titan&page=1&limit=20` | Paginated catalog search by title, studio, director, or tag |
+| `GET` | `/api/anime/:id` | `id` (e.g. `16498`) | Full anime details, formatted metadata, studios, directors, and cast |
+| `GET` | `/api/anime/:id/recommendations` | `id`, `?limit=6` | Multi-hop graph recommendations with match scores and explained reasons |
 
 ---
 
 ## Demo and Submission Links
 
-- **Hosted Application Demo**: *(Link to be added upon frontend deployment)*
-- **Screen Recording Video Walkthrough**: *(Link to be added upon recording)*
 - **GitHub Repository**: https://github.com/Tiru0067/AniGraph
+- **Frontend Live Demo**: *(Link to be added upon deployment)*
+- **Walkthrough Video**: *(Link to be added upon recording)*
