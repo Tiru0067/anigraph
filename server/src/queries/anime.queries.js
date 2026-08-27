@@ -29,13 +29,17 @@ export const SEARCH_ANIME = `
   OPTIONAL MATCH (a)-[:DIRECTED_BY]->(st:Staff)
   OPTIONAL MATCH (a)-[:HAS_GENRE]->(g:Genre)
   OPTIONAL MATCH (a)-[:HAS_TAG]->(t:Tag)
-  WHERE toLower(a.titleRomaji) CONTAINS toLower($search) 
-     OR toLower(a.titleEnglish) CONTAINS toLower($search)
-     OR toLower(s.name) CONTAINS toLower($search)
-     OR toLower(st.name) CONTAINS toLower($search)
-     OR toLower(g.name) CONTAINS toLower($search)
-     OR toLower(t.name) CONTAINS toLower($search)
-  WITH DISTINCT a
+  WITH a,
+       collect(DISTINCT toLower(coalesce(s.name, ''))) AS studios,
+       collect(DISTINCT toLower(coalesce(st.name, ''))) AS directors,
+       collect(DISTINCT toLower(coalesce(g.name, ''))) AS genres,
+       collect(DISTINCT toLower(coalesce(t.name, ''))) AS tags
+  WHERE toLower(coalesce(a.titleRomaji, '')) CONTAINS toLower($search)
+     OR toLower(coalesce(a.titleEnglish, '')) CONTAINS toLower($search)
+     OR any(item IN studios WHERE item CONTAINS toLower($search))
+     OR any(item IN directors WHERE item CONTAINS toLower($search))
+     OR any(item IN genres WHERE item CONTAINS toLower($search))
+     OR any(item IN tags WHERE item CONTAINS toLower($search))
   OPTIONAL MATCH (a)-[:HAS_GENRE]->(g2:Genre)
   OPTIONAL MATCH (a)-[:PRODUCED_BY]->(s2:Studio)
   RETURN a.id AS id,
