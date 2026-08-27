@@ -278,7 +278,7 @@ The server will start on `http://localhost:5000`.
 | Method | Endpoint | Query Parameters | Description |
 | :--- | :--- | :--- | :--- |
 | `GET` | `/api/stats` | None | Returns total counts of anime, studios, genres, and relationships |
-| `GET` | `/api/anime` | `?search=titan&limit=20` | Returns a list of anime or searches by title |
+| `GET` | `/api/anime` | `?search=titan&page=1&limit=20` | Returns a paginated list of anime or searches by title |
 | `GET` | `/api/anime/:id` | `id` (e.g. `16498`) | Returns anime details with studio, director, genres, and cast |
 | `GET` | `/api/anime/:id/recommendations` | `id`, `?limit=6` | Returns graph-powered recommendations with scores and match reasons |
 
