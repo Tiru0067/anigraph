@@ -1,32 +1,44 @@
 import { useState, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Network, Compass, Sparkles } from 'lucide-react';
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const isAnimeDetailPage = location.pathname.startsWith('/anime/');
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const threshold = isAnimeDetailPage ? 140 : 20;
+      setIsScrolled(window.scrollY > threshold);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isAnimeDetailPage]);
+
+  // Determine background styling based on page and scroll position
+  const getHeaderClasses = () => {
+    if (isScrolled) {
+      return 'bg-background-100/85 backdrop-blur-md border-b border-background-400/20 shadow-lg shadow-background-000/30';
+    }
+    if (isAnimeDetailPage) {
+      return 'bg-background-100/40 border-b border-white/5';
+    }
+    return 'bg-transparent border-b border-transparent';
+  };
+
+  const isCompact = isScrolled || isAnimeDetailPage;
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        isScrolled
-          ? 'bg-background-100/80 backdrop-blur-md border-b border-background-400/20 shadow-lg shadow-background-000/30'
-          : 'bg-transparent border-b border-transparent'
-      }`}
+      className={`sticky top-0 z-50 w-full transition-all duration-300 hover:bg-background-100 hover:backdrop-blur-none hover:border-background-400/30 hover:shadow-xl hover:shadow-background-000/40 ${getHeaderClasses()}`}
     >
       <div
         className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between transition-all duration-300 ${
-          isScrolled ? 'h-16' : 'h-20'
+          isCompact ? 'h-16' : 'h-20'
         }`}
       >
         {/* Brand Logo */}
@@ -36,9 +48,6 @@ export const Navbar = () => {
           </div>
           <span className="text-xl font-bold font-display tracking-tight text-typography-100">
             Ani<span className="text-primary-300">Graph</span>
-          </span>
-          <span className="hidden sm:inline-block text-[10px] uppercase font-semibold px-2.5 py-0.5 rounded-full bg-primary-500/15 text-primary-200 border border-primary-400/30 tracking-wider">
-            Graph Engine
           </span>
         </Link>
 

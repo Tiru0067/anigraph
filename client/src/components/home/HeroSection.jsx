@@ -24,7 +24,7 @@ export const HeroSection = ({ searchQuery, setSearchQuery, onSearchSubmit, onQui
         className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display tracking-tight text-typography-100 max-w-3xl mb-3 leading-tight"
       >
         {totalAnime}+ Anime Entries <br />
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-200 via-primary-300 to-primary-100">
+        <span className="text-transparent bg-clip-text bg-linear-to-r from-primary-200 via-primary-300 to-primary-100">
           Connected as a Knowledge Graph
         </span>
       </motion.h1>
@@ -36,7 +36,7 @@ export const HeroSection = ({ searchQuery, setSearchQuery, onSearchSubmit, onQui
         transition={{ duration: 0.5, delay: 0.15 }}
         className="text-typography-300 text-xs sm:text-sm max-w-xl mb-6 leading-relaxed"
       >
-        Explore anime connections across shared animation studios, creative directors, voice actors, and ranked thematic tags using openCypher graph traversals.
+        Explore anime connections across shared animation studios, creative directors, voice actors, and ranked tags using openCypher graph traversals.
       </motion.p>
 
       {/* Compact Search Bar */}
