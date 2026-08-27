@@ -61,7 +61,7 @@ export const SEARCH_ANIME = `
 export const GET_ANIME_BY_ID = `
   MATCH (a:Anime {id: $id})
   OPTIONAL MATCH (a)-[:HAS_GENRE]->(g:Genre)
-  OPTIONAL MATCH (a)-[:HAS_TAG]->(t:Tag)
+  OPTIONAL MATCH (a)-[rt:HAS_TAG]->(t:Tag)
   OPTIONAL MATCH (a)-[:PRODUCED_BY]->(s:Studio)
   OPTIONAL MATCH (a)-[:DIRECTED_BY]->(d:Staff)
   OPTIONAL MATCH (a)-[:FEATURES]->(c:Character)
@@ -69,15 +69,20 @@ export const GET_ANIME_BY_ID = `
   RETURN a.id AS id,
          a.titleRomaji AS titleRomaji,
          a.titleEnglish AS titleEnglish,
+         a.titleNative AS titleNative,
          a.description AS description,
          a.format AS format,
+         a.status AS status,
          a.episodes AS episodes,
+         a.duration AS duration,
          a.averageScore AS averageScore,
+         a.popularity AS popularity,
+         a.season AS season,
          a.seasonYear AS seasonYear,
          a.coverImage AS coverImage,
          a.bannerImage AS bannerImage,
          collect(DISTINCT g.name) AS genres,
-         collect(DISTINCT t.name) AS tags,
+         collect(DISTINCT { name: t.name, rank: coalesce(rt.rank, 60) }) AS tags,
          collect(DISTINCT s.name) AS studios,
          collect(DISTINCT d.name) AS directors,
          collect(DISTINCT {character: c.name, voiceActor: va.name}) AS cast
