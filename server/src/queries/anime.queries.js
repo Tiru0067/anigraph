@@ -22,13 +22,22 @@ export const GET_ALL_ANIME = `
   LIMIT $limit
 `;
 
-// 2. Search anime by title (paginated)
+// 2. Search anime across titles, animation studios, directors, genres, and tags (paginated)
 export const SEARCH_ANIME = `
   MATCH (a:Anime)
+  OPTIONAL MATCH (a)-[:PRODUCED_BY]->(s:Studio)
+  OPTIONAL MATCH (a)-[:DIRECTED_BY]->(st:Staff)
+  OPTIONAL MATCH (a)-[:HAS_GENRE]->(g:Genre)
+  OPTIONAL MATCH (a)-[:HAS_TAG]->(t:Tag)
   WHERE toLower(a.titleRomaji) CONTAINS toLower($search) 
      OR toLower(a.titleEnglish) CONTAINS toLower($search)
-  OPTIONAL MATCH (a)-[:HAS_GENRE]->(g:Genre)
-  OPTIONAL MATCH (a)-[:PRODUCED_BY]->(s:Studio)
+     OR toLower(s.name) CONTAINS toLower($search)
+     OR toLower(st.name) CONTAINS toLower($search)
+     OR toLower(g.name) CONTAINS toLower($search)
+     OR toLower(t.name) CONTAINS toLower($search)
+  WITH DISTINCT a
+  OPTIONAL MATCH (a)-[:HAS_GENRE]->(g2:Genre)
+  OPTIONAL MATCH (a)-[:PRODUCED_BY]->(s2:Studio)
   RETURN a.id AS id,
          a.titleRomaji AS titleRomaji,
          a.titleEnglish AS titleEnglish,
@@ -37,8 +46,8 @@ export const SEARCH_ANIME = `
          a.averageScore AS averageScore,
          a.seasonYear AS seasonYear,
          a.coverImage AS coverImage,
-         collect(DISTINCT g.name) AS genres,
-         collect(DISTINCT s.name) AS studios
+         collect(DISTINCT g2.name) AS genres,
+         collect(DISTINCT s2.name) AS studios
   ORDER BY a.averageScore DESC
   SKIP $skip
   LIMIT $limit
