@@ -75,7 +75,7 @@ graph TD
     Anime -->|PRODUCED_BY| Studio
     Anime -->|DIRECTED_BY| Staff
     Anime -->|HAS_GENRE| Genre
-    Anime -->|HAS_TAG {rank}| Tag
+    Anime -->|"HAS_TAG (rank)"| Tag
     Anime -->|FEATURES| Character
     Character -->|VOICED_BY| VoiceActor
 ```
