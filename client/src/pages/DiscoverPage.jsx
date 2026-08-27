@@ -10,12 +10,12 @@ const PAGE_SIZE = 28;
 
 export const DiscoverPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialSearch = searchParams.get('search') || '';
+  const urlSearch = searchParams.get('search') || '';
 
-  const [searchInput, setSearchInput] = useState(initialSearch);
-  const [searchQuery, setSearchQuery] = useState(initialSearch);
+  const [searchInput, setSearchInput] = useState(urlSearch);
+  const [prevUrlSearch, setPrevUrlSearch] = useState(urlSearch);
   const [selectedFormat, setSelectedFormat] = useState('ALL');
-  const [selectedGenre, setSelectedGenre] = useState('All');
+  const [selectedGenres, setSelectedGenres] = useState([]);
   const [sortBy, setSortBy] = useState('score');
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -23,15 +23,14 @@ export const DiscoverPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Sync state if URL query param changes from external navigation
-  useEffect(() => {
-    const urlQuery = searchParams.get('search') || '';
-    setSearchInput(urlQuery);
-    setSearchQuery(urlQuery);
+  // Sync search input if URL changes externally
+  if (prevUrlSearch !== urlSearch) {
+    setPrevUrlSearch(urlSearch);
+    setSearchInput(urlSearch);
     setCurrentPage(1);
-  }, [searchParams.get('search')]);
+  }
 
-  // Fetch anime list from backend when searchQuery changes
+  // Fetch anime list from backend when search parameter changes
   useEffect(() => {
     let isMounted = true;
     const loadAnime = async () => {
@@ -39,7 +38,7 @@ export const DiscoverPage = () => {
       setError(null);
 
       try {
-        const queryTerm = searchQuery.trim();
+        const queryTerm = urlSearch.trim();
         const res = await fetchAnimeList({ search: queryTerm, page: 1, limit: 250 });
         if (isMounted) {
           setAnimeList(res.data || []);
@@ -60,7 +59,7 @@ export const DiscoverPage = () => {
     return () => {
       isMounted = false;
     };
-  }, [searchQuery]);
+  }, [urlSearch]);
 
   // Handle Search Input Change (typing only)
   const handleSearchInputChange = (val) => {
@@ -71,7 +70,6 @@ export const DiscoverPage = () => {
   const handleSearchSubmit = (e) => {
     if (e && e.preventDefault) e.preventDefault();
     const query = searchInput.trim();
-    setSearchQuery(query);
     setCurrentPage(1);
     if (query) {
       setSearchParams({ search: query });
@@ -83,9 +81,22 @@ export const DiscoverPage = () => {
   // Handle Clear Search
   const handleSearchClear = () => {
     setSearchInput('');
-    setSearchQuery('');
     setCurrentPage(1);
     setSearchParams({});
+  };
+
+  // Handle Genre Toggle (Multi-select)
+  const handleGenreToggle = (genre) => {
+    setSelectedGenres((prev) =>
+      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
+    );
+    setCurrentPage(1);
+  };
+
+  // Handle Genre Clear (Reset to All)
+  const handleGenreClear = () => {
+    setSelectedGenres([]);
+    setCurrentPage(1);
   };
 
   // Filter & Sort Pipeline
@@ -97,10 +108,10 @@ export const DiscoverPage = () => {
       result = result.filter((a) => a.format === selectedFormat);
     }
 
-    // Genre Filter
-    if (selectedGenre !== 'All') {
+    // Genre Filter (Multi-select: Anime must contain all selected genres)
+    if (selectedGenres.length > 0) {
       result = result.filter(
-        (a) => Array.isArray(a.genres) && a.genres.includes(selectedGenre)
+        (a) => Array.isArray(a.genres) && selectedGenres.every((g) => a.genres.includes(g))
       );
     }
 
@@ -121,7 +132,7 @@ export const DiscoverPage = () => {
     });
 
     return result;
-  }, [animeList, selectedFormat, selectedGenre, sortBy]);
+  }, [animeList, selectedFormat, selectedGenres, sortBy]);
 
   // Pagination Calculation
   const totalItems = filteredAndSortedAnime.length;
@@ -138,9 +149,8 @@ export const DiscoverPage = () => {
 
   const handleResetFilters = () => {
     setSearchInput('');
-    setSearchQuery('');
     setSelectedFormat('ALL');
-    setSelectedGenre('All');
+    setSelectedGenres([]);
     setSortBy('score');
     setCurrentPage(1);
     setSearchParams({});
@@ -180,11 +190,9 @@ export const DiscoverPage = () => {
           setSelectedFormat(fmt);
           setCurrentPage(1);
         }}
-        selectedGenre={selectedGenre}
-        onGenreChange={(gnr) => {
-          setSelectedGenre(gnr);
-          setCurrentPage(1);
-        }}
+        selectedGenres={selectedGenres}
+        onGenreToggle={handleGenreToggle}
+        onGenreClear={handleGenreClear}
         sortBy={sortBy}
         onSortChange={setSortBy}
       />

@@ -1,4 +1,4 @@
-import { Search, X, Filter, ArrowUpDown, Film } from 'lucide-react';
+import { Search, X, Check, Filter, ArrowUpDown, Film } from 'lucide-react';
 import CustomDropdown from '../common/CustomDropdown.jsx';
 
 const FORMAT_OPTIONS = [
@@ -9,17 +9,21 @@ const FORMAT_OPTIONS = [
 ];
 
 const GENRES = [
-  'All',
   'Action',
   'Adventure',
   'Comedy',
   'Drama',
   'Fantasy',
   'Horror',
+  'Mahou Shoujo',
+  'Mecha',
+  'Music',
   'Mystery',
   'Psychological',
   'Romance',
   'Sci-Fi',
+  'Slice of Life',
+  'Sports',
   'Supernatural',
   'Thriller'
 ];
@@ -37,8 +41,9 @@ export const DiscoverFilters = ({
   onSearchClear,
   selectedFormat,
   onFormatChange,
-  selectedGenre,
-  onGenreChange,
+  selectedGenres = [],
+  onGenreToggle,
+  onGenreClear,
   sortBy,
   onSortChange
 }) => {
@@ -93,24 +98,43 @@ export const DiscoverFilters = ({
       </div>
 
       {/* Bottom Row: Genre Pills */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-xs">
+      <div className="flex flex-wrap items-center gap-1.5 text-xs">
         <span className="text-typography-400 text-[11px] font-semibold uppercase tracking-wider mr-1 flex items-center gap-1 flex-shrink-0">
           <Filter className="w-3 h-3 text-primary-300" />
-          Genres:
+          <span>Genres{selectedGenres.length > 0 ? ` (${selectedGenres.length})` : ''}:</span>
         </span>
+
+        {/* All Pill */}
+        <button
+          type="button"
+          onClick={onGenreClear}
+          className={`px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all border cursor-pointer shrink-0 ${selectedGenres.length === 0
+            ? 'bg-primary-500/20 text-primary-100 border-primary-400/50 shadow-sm'
+            : 'bg-background-200/80 border-background-400/30 text-typography-300 hover:text-typography-100 hover:bg-background-300'
+            }`}
+        >
+          All
+        </button>
+
         {GENRES.map((genre) => {
-          const isSelected = selectedGenre === genre;
+          const isSelected = selectedGenres.includes(genre);
           return (
             <button
               key={genre}
               type="button"
-              onClick={() => onGenreChange(genre)}
-              className={`px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all border cursor-pointer shrink-0 ${isSelected
-                ? 'bg-primary-500/20 text-primary-100 border-primary-400/50 shadow-sm'
+              onClick={() => onGenreToggle(genre)}
+              className={`group px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all border cursor-pointer shrink-0 flex items-center gap-1.5 ${isSelected
+                ? 'bg-primary-500/20 text-primary-100 border-primary-400/50 hover:bg-rose-500/15 hover:border-rose-400/40 hover:text-rose-200 shadow-sm'
                 : 'bg-background-200/80 border-background-400/30 text-typography-300 hover:text-typography-100 hover:bg-background-300'
                 }`}
             >
-              {genre}
+              <span>{genre}</span>
+              {isSelected && (
+                <span className="inline-flex items-center justify-center">
+                  <Check className="w-3 h-3 text-primary-300 group-hover:hidden transition-transform" />
+                  <X className="w-3 h-3 text-rose-300 hidden group-hover:block transition-transform" />
+                </span>
+              )}
             </button>
           );
         })}
