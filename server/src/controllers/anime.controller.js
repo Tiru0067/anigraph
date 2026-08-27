@@ -1,57 +1,31 @@
-/**
- * Anime Controller
- * Handles anime listing, search, details, and recommendations
- */
-
-const mockAnime = [
-  {
-    id: 16498,
-    titleRomaji: "Shingeki no Kyojin",
-    titleEnglish: "Attack on Titan",
-    format: "TV",
-    episodes: 25,
-    averageScore: 85,
-    seasonYear: 2013,
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx16498-C6FPmWm59CyP.jpg",
-    genres: ["Action", "Drama", "Fantasy", "Mystery"],
-    studios: ["WIT Studio", "MAPPA"]
-  },
-  {
-    id: 113415,
-    titleRomaji: "Jujutsu Kaisen",
-    titleEnglish: "JUJUTSU KAISEN",
-    format: "TV",
-    episodes: 24,
-    averageScore: 86,
-    seasonYear: 2020,
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx113415-bbBWj4pUbAw8.jpg",
-    genres: ["Action", "Fantasy", "Supernatural"],
-    studios: ["MAPPA"]
-  }
-];
+import { runQuery } from '../config/database.js';
+import {
+  GET_ALL_ANIME,
+  SEARCH_ANIME,
+  GET_ANIME_BY_ID,
+  GET_ANIME_RECOMMENDATIONS
+} from '../queries/anime.queries.js';
 
 /**
  * Get anime list with optional search query
- * Route: GET /api/anime?search=...
+ * Route: GET /api/anime?search=...&limit=...
  */
 export const getAnimeList = async (req, res, next) => {
   try {
-    const { search } = req.query;
-    let results = mockAnime;
+    const { search, limit } = req.query;
+    const limitNum = parseInt(limit, 10) || 50;
 
-    if (search) {
-      const query = search.toLowerCase();
-      results = results.filter(
-        (a) =>
-          a.titleRomaji?.toLowerCase().includes(query) ||
-          a.titleEnglish?.toLowerCase().includes(query)
-      );
+    let records;
+    if (search && search.trim().length > 0) {
+      records = await runQuery(SEARCH_ANIME, { search: search.trim() });
+    } else {
+      records = await runQuery(GET_ALL_ANIME, { limit: limitNum });
     }
 
     res.status(200).json({
       success: true,
-      count: results.length,
-      data: results
+      count: records.length,
+      data: records
     });
   } catch (error) {
     next(error);
@@ -67,9 +41,16 @@ export const getAnimeById = async (req, res, next) => {
     const { id } = req.params;
     const animeId = parseInt(id, 10);
 
-    const anime = mockAnime.find((item) => item.id === animeId);
+    if (isNaN(animeId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid anime ID parameter'
+      });
+    }
 
-    if (!anime) {
+    const records = await runQuery(GET_ANIME_BY_ID, { id: animeId });
+
+    if (!records || records.length === 0) {
       return res.status(404).json({
         success: false,
         message: `Anime with ID ${id} not found`
@@ -78,7 +59,7 @@ export const getAnimeById = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      data: anime
+      data: records[0]
     });
   } catch (error) {
     next(error);
@@ -87,27 +68,32 @@ export const getAnimeById = async (req, res, next) => {
 
 /**
  * Get recommendations for a specific anime
- * Route: GET /api/anime/:id/recommendations
+ * Route: GET /api/anime/:id/recommendations?limit=...
  */
 export const getAnimeRecommendations = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { limit } = req.query;
     const animeId = parseInt(id, 10);
+    const limitNum = parseInt(limit, 10) || 6;
 
-    // Mock recommendations for initial testing
-    const recommendations = mockAnime
-      .filter((item) => item.id !== animeId)
-      .map((item) => ({
-        ...item,
-        recommendationScore: 88,
-        matchReasons: ["Shared Studio: MAPPA", "Shared Genre: Action, Fantasy"]
-      }));
+    if (isNaN(animeId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid anime ID parameter'
+      });
+    }
+
+    const records = await runQuery(GET_ANIME_RECOMMENDATIONS, {
+      id: animeId,
+      limit: limitNum
+    });
 
     res.status(200).json({
       success: true,
       animeId,
-      count: recommendations.length,
-      data: recommendations
+      count: records.length,
+      data: records
     });
   } catch (error) {
     next(error);

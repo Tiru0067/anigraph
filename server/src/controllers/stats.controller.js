@@ -1,18 +1,23 @@
+import { runQuery } from '../config/database.js';
+import { GET_GRAPH_STATS } from '../queries/stats.queries.js';
+
 /**
  * Stats Controller
- * Returns graph summary metrics (total anime, studios, staff, genres, relationships)
+ * Returns graph summary metrics from CognoDB
  */
 export const getStats = async (req, res, next) => {
   try {
-    // Stub data for initial verification before DB is connected
+    const records = await runQuery(GET_GRAPH_STATS);
+    const data = records[0] || {
+      totalAnime: 0,
+      totalStudios: 0,
+      totalGenres: 0,
+      totalRelationships: 0
+    };
+
     res.status(200).json({
       success: true,
-      data: {
-        totalAnime: 2,
-        totalStudios: 2,
-        totalGenres: 5,
-        totalRelationships: 8
-      }
+      data
     });
   } catch (error) {
     next(error);
