@@ -1,13 +1,37 @@
+import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Network, Compass, Sparkles } from 'lucide-react';
 
 export const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 w-full bg-background-100 backdrop-blur-md transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        isScrolled
+          ? 'bg-background-100/80 backdrop-blur-md border-b border-background-400/20 shadow-lg shadow-background-000/30'
+          : 'bg-transparent border-b border-transparent'
+      }`}
+    >
+      <div
+        className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between transition-all duration-300 ${
+          isScrolled ? 'h-16' : 'h-20'
+        }`}
+      >
         {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-2.5 group" aria-label="AniGraph Home">
-          <div className="w-10 h-10 rounded-xl bg-primary-500/20 border border-primary-400/20 flex items-center justify-center text-primary-300">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary-500/20 border border-primary-400/20 flex items-center justify-center text-primary-300">
             <Network className="w-5 h-5" />
           </div>
           <span className="text-xl font-bold font-display tracking-tight text-typography-100">
@@ -37,7 +61,7 @@ export const Navbar = () => {
           <NavLink
             to="/discover"
             className={({ isActive }) =>
-              `flex items-center gap-2 px-3.5 py-1.75 rounded-[10px] border  text-sm font-medium transition-all ${isActive
+              `flex items-center gap-2 px-3.5 py-1.75 rounded-[10px] border text-sm font-medium transition-all ${isActive
                 ? 'bg-primary-500/20 text-primary-100 border-primary-400/40 shadow-sm'
                 : 'border-transparent text-typography-100 hover:text-typography-200 hover:bg-background-200 hover:border-background-200'
               }`
@@ -54,7 +78,7 @@ export const Navbar = () => {
             href="https://github.com/Tiru0067/AniGraph"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2.25 text-typography-300 hover:text-typography-100 hover:bg-background-200 rounded-[10px] transition-colors"
+            className="p-2 text-typography-300 hover:text-typography-100 hover:bg-background-200 rounded-[10px] transition-colors"
             title="GitHub Repository"
             aria-label="GitHub Repository"
           >
