@@ -1,10 +1,10 @@
-import AnimeCard from '../common/AnimeCard.jsx';
-import DiscoverEmptyState from './DiscoverEmptyState.jsx';
+import AnimeCard from "../common/AnimeCard.jsx";
+import DiscoverEmptyState from "./DiscoverEmptyState.jsx";
 
 export const DiscoverGrid = ({
   loading = false,
   animeList = [],
-  onResetFilters
+  onResetFilters,
 }) => {
   // Loading Skeleton State
   if (loading) {

@@ -1,9 +1,9 @@
-import { Routes, Route } from 'react-router-dom';
-import Layout from '../components/layout/Layout.jsx';
-import HomePage from '../pages/HomePage.jsx';
-import DiscoverPage from '../pages/DiscoverPage.jsx';
-import AnimeDetailPage from '../pages/AnimeDetailPage.jsx';
-import NotFoundPage from '../pages/NotFoundPage.jsx';
+import { Routes, Route } from "react-router-dom";
+import Layout from "../components/layout/Layout.jsx";
+import HomePage from "../pages/HomePage.jsx";
+import DiscoverPage from "../pages/DiscoverPage.jsx";
+import AnimeDetailPage from "../pages/AnimeDetailPage.jsx";
+import NotFoundPage from "../pages/NotFoundPage.jsx";
 
 export const AppRoutes = () => {
   return (

@@ -1,37 +1,37 @@
-import { Search, X, Check, Filter, ArrowUpDown, Film } from 'lucide-react';
-import CustomDropdown from '../common/CustomDropdown.jsx';
+import { Search, X, Check, Filter, ArrowUpDown, Film } from "lucide-react";
+import CustomDropdown from "../common/CustomDropdown.jsx";
 
 const FORMAT_OPTIONS = [
-  { value: 'TV', label: 'TV' },
-  { value: 'MOVIE', label: 'Movie' },
-  { value: 'OVA', label: 'OVA' },
-  { value: 'ONA', label: 'ONA' }
+  { value: "TV", label: "TV" },
+  { value: "MOVIE", label: "Movie" },
+  { value: "OVA", label: "OVA" },
+  { value: "ONA", label: "ONA" },
 ];
 
 const GENRES = [
-  'Action',
-  'Adventure',
-  'Comedy',
-  'Drama',
-  'Fantasy',
-  'Horror',
-  'Mahou Shoujo',
-  'Mecha',
-  'Music',
-  'Mystery',
-  'Psychological',
-  'Romance',
-  'Sci-Fi',
-  'Slice of Life',
-  'Sports',
-  'Supernatural',
-  'Thriller'
+  "Action",
+  "Adventure",
+  "Comedy",
+  "Drama",
+  "Fantasy",
+  "Horror",
+  "Mahou Shoujo",
+  "Mecha",
+  "Music",
+  "Mystery",
+  "Psychological",
+  "Romance",
+  "Sci-Fi",
+  "Slice of Life",
+  "Sports",
+  "Supernatural",
+  "Thriller",
 ];
 
 const SORT_OPTIONS = [
-  { value: 'score', label: 'Top Score' },
-  { value: 'year', label: 'Newest Year' },
-  { value: 'title', label: 'Title (A-Z)' }
+  { value: "score", label: "Top Score" },
+  { value: "year", label: "Newest Year" },
+  { value: "title", label: "Title (A-Z)" },
 ];
 
 export const DiscoverFilters = ({
@@ -45,7 +45,7 @@ export const DiscoverFilters = ({
   onGenreToggle,
   onGenreClear,
   sortBy,
-  onSortChange
+  onSortChange,
 }) => {
   return (
     <div className="flex flex-col gap-4 mb-8">
@@ -99,19 +99,23 @@ export const DiscoverFilters = ({
 
       {/* Bottom Row: Genre Pills */}
       <div className="flex flex-wrap items-center gap-1.5 text-xs">
-        <span className="text-typography-400 text-xs font-semibold uppercase tracking-wider mr-1.5 flex items-center gap-1.5 flex-shrink-0">
+        <span className="text-typography-400 text-xs font-semibold uppercase tracking-wider mr-1.5 flex items-center gap-1.5 shrink-0">
           <Filter className="w-3.5 h-3.5 text-primary-300" />
-          <span>Genres{selectedGenres.length > 0 ? ` (${selectedGenres.length})` : ''}:</span>
+          <span>
+            Genres
+            {selectedGenres.length > 0 ? ` (${selectedGenres.length})` : ""}:
+          </span>
         </span>
 
         {/* All Pill */}
         <button
           type="button"
           onClick={onGenreClear}
-          className={`px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all border cursor-pointer shrink-0 ${selectedGenres.length === 0
-            ? 'bg-primary-500/20 text-primary-100 border-primary-400/50 shadow-sm'
-            : 'bg-background-200/80 border-background-400/30 text-typography-300 hover:text-typography-100 hover:bg-background-300'
-            }`}
+          className={`px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all border cursor-pointer shrink-0 ${
+            selectedGenres.length === 0
+              ? "bg-primary-500/20 text-primary-100 border-primary-400/50 shadow-sm"
+              : "bg-background-200/80 border-background-400/30 text-typography-300 hover:text-typography-100 hover:bg-background-300"
+          }`}
         >
           All
         </button>
@@ -123,10 +127,11 @@ export const DiscoverFilters = ({
               key={genre}
               type="button"
               onClick={() => onGenreToggle(genre)}
-              className={`group px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all border cursor-pointer shrink-0 flex items-center gap-1.5 ${isSelected
-                ? 'bg-primary-500/20 text-primary-100 border-primary-400/50 hover:bg-rose-500/15 hover:border-rose-400/40 hover:text-rose-200 shadow-sm'
-                : 'bg-background-200/80 border-background-400/30 text-typography-300 hover:text-typography-100 hover:bg-background-300'
-                }`}
+              className={`group px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all border cursor-pointer shrink-0 flex items-center gap-1.5 ${
+                isSelected
+                  ? "bg-primary-500/20 text-primary-100 border-primary-400/50 hover:bg-rose-500/15 hover:border-rose-400/40 hover:text-rose-200 shadow-sm"
+                  : "bg-background-200/80 border-background-400/30 text-typography-300 hover:text-typography-100 hover:bg-background-300"
+              }`}
             >
               <span>{genre}</span>
               {isSelected && (

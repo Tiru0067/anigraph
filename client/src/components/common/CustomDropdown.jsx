@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Check } from 'lucide-react';
+import { useState, useRef, useEffect } from "react";
+import { ChevronDown, Check } from "lucide-react";
 
 export const CustomDropdown = ({
   options = [],
@@ -8,13 +8,15 @@ export const CustomDropdown = ({
   placeholder,
   allowDeselect = false,
   icon: Icon,
-  className = ''
+  className = "",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const selectedOption = options.find((opt) => opt.value === value);
-  const displayLabel = selectedOption ? selectedOption.label : (placeholder || options[0]?.label || '');
+  const displayLabel = selectedOption
+    ? selectedOption.label
+    : placeholder || options[0]?.label || "";
 
   // Close dropdown on outside click or escape key
   useEffect(() => {
@@ -25,25 +27,25 @@ export const CustomDropdown = ({
     };
 
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setIsOpen(false);
       }
     };
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleOutsideClick);
-      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener("mousedown", handleOutsideClick);
+      document.addEventListener("keydown", handleKeyDown);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen]);
 
   const handleSelect = (val) => {
     if (allowDeselect && val === value) {
-      onChange('ALL');
+      onChange("ALL");
     } else {
       onChange(val);
     }
@@ -56,12 +58,13 @@ export const CustomDropdown = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between gap-2 px-3 py-1.75 rounded-xl text-xs font-medium bg-background-200 border transition-all cursor-pointer select-none whitespace-nowrap ${isOpen
-            ? 'border-primary-400 text-typography-100 ring-2 ring-primary-500/20 shadow-md'
+        className={`w-full flex items-center justify-between gap-2 px-3 py-1.75 rounded-xl text-xs font-medium bg-background-200 border transition-all cursor-pointer select-none whitespace-nowrap ${
+          isOpen
+            ? "border-primary-400 text-typography-100 ring-2 ring-primary-500/20 shadow-md"
             : selectedOption
-              ? 'border-primary-400/40 text-typography-100 bg-background-200'
-              : 'border-background-400/30 text-typography-200 hover:text-typography-100 hover:bg-background-300'
-          }`}
+              ? "border-primary-400/40 text-typography-100 bg-background-200"
+              : "border-background-400/30 text-typography-200 hover:text-typography-100 hover:bg-background-300"
+        }`}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
@@ -94,8 +97,9 @@ export const CustomDropdown = ({
         </div>
 
         <ChevronDown
-          className={`w-3.5 h-3.5 text-typography-400 transition-transform duration-200 shrink-0 ml-1 ${isOpen ? 'rotate-180 text-primary-300' : ''
-            }`}
+          className={`w-3.5 h-3.5 text-typography-400 transition-transform duration-200 shrink-0 ml-1 ${
+            isOpen ? "rotate-180 text-primary-300" : ""
+          }`}
         />
       </button>
 
@@ -117,7 +121,9 @@ export const CustomDropdown = ({
                 aria-selected={isSelected}
               >
                 <span>{option.label}</span>
-                {isSelected && <Check className="w-3.5 h-3.5 text-primary-300 shrink-0" />}
+                {isSelected && (
+                  <Check className="w-3.5 h-3.5 text-primary-300 shrink-0" />
+                )}
               </button>
             );
           })}

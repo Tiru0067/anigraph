@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
-import { Star, ArrowRight, Film } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { Star, ArrowRight, Film } from "lucide-react";
 
 export const AnimeCard = ({ anime }) => {
-  const cover = typeof anime.coverImage === 'string'
-    ? anime.coverImage
-    : (anime.coverImage?.large || anime.coverImage?.extraLarge || '');
+  const cover =
+    typeof anime.coverImage === "string"
+      ? anime.coverImage
+      : anime.coverImage?.large || anime.coverImage?.extraLarge || "";
 
   return (
     <Link
@@ -16,7 +17,7 @@ export const AnimeCard = ({ anime }) => {
         {cover ? (
           <img
             src={cover}
-            alt={anime.titleEnglish || anime.titleRomaji || 'Anime Poster'}
+            alt={anime.titleEnglish || anime.titleRomaji || "Anime Poster"}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
           />
@@ -53,7 +54,7 @@ export const AnimeCard = ({ anime }) => {
         </h3>
 
         <div className="flex items-center text-xs text-typography-300">
-          {`${anime.format || ''} • ${anime.seasonYear || ''}`}
+          {`${anime.format || ""} • ${anime.seasonYear || ""}`}
         </div>
       </div>
     </Link>

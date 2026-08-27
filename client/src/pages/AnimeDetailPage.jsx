@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, AlertCircle } from 'lucide-react';
-import { fetchAnimeById, fetchAnimeRecommendations } from '../api/client.js';
-import DetailHeroBanner from '../components/detail/DetailHeroBanner.jsx';
-import DetailSynopsis from '../components/detail/DetailSynopsis.jsx';
-import DetailMetadataSidebar from '../components/detail/DetailMetadataSidebar.jsx';
-import DetailCastList from '../components/detail/DetailCastList.jsx';
-import DetailRecommendations from '../components/detail/DetailRecommendations.jsx';
-import DetailSkeleton from '../components/detail/DetailSkeleton.jsx';
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { ArrowLeft, AlertCircle } from "lucide-react";
+import { fetchAnimeById, fetchAnimeRecommendations } from "../api/client.js";
+import DetailHeroBanner from "../components/detail/DetailHeroBanner.jsx";
+import DetailSynopsis from "../components/detail/DetailSynopsis.jsx";
+import DetailMetadataSidebar from "../components/detail/DetailMetadataSidebar.jsx";
+import DetailCastList from "../components/detail/DetailCastList.jsx";
+import DetailRecommendations from "../components/detail/DetailRecommendations.jsx";
+import DetailSkeleton from "../components/detail/DetailSkeleton.jsx";
 
 export const AnimeDetailPage = () => {
   const { id } = useParams();
@@ -20,7 +20,7 @@ export const AnimeDetailPage = () => {
 
   // Scroll to top when navigating to an anime
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
 
   // Fetch anime details and recommendations concurrently
@@ -45,8 +45,10 @@ export const AnimeDetailPage = () => {
         }
       } catch (err) {
         if (isMounted) {
-          console.error('Error fetching anime details:', err);
-          setError(`Failed to load anime #${id}. Please check your connection.`);
+          console.error("Error fetching anime details:", err);
+          setError(
+            `Failed to load anime #${id}. Please check your connection.`,
+          );
         }
       } finally {
         if (isMounted) {
@@ -64,7 +66,7 @@ export const AnimeDetailPage = () => {
         }
       } catch (err) {
         if (isMounted) {
-          console.warn('Error fetching recommendations:', err);
+          console.warn("Error fetching recommendations:", err);
           // Recommendations failure is non-blocking for details view
         }
       } finally {

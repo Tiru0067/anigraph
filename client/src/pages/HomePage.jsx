@@ -1,26 +1,26 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { fetchStats, fetchAnimeList } from '../api/client.js';
-import { FALLBACK_ANIME } from '../constants/homeData.js';
-import HeroSection from '../components/home/HeroSection.jsx';
-import AnimeMarqueeWall from '../components/home/AnimeMarqueeWall.jsx';
-import StatsShowcase from '../components/home/StatsShowcase.jsx';
-import GraphFeatures from '../components/home/GraphFeatures.jsx';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchStats, fetchAnimeList } from "../api/client.js";
+import { FALLBACK_ANIME } from "../constants/homeData.js";
+import HeroSection from "../components/home/HeroSection.jsx";
+import AnimeMarqueeWall from "../components/home/AnimeMarqueeWall.jsx";
+import StatsShowcase from "../components/home/StatsShowcase.jsx";
+import GraphFeatures from "../components/home/GraphFeatures.jsx";
 
 export const HomePage = () => {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [row1Anime, setRow1Anime] = useState(() =>
-    FALLBACK_ANIME.filter((_, idx) => idx % 2 === 0)
+    FALLBACK_ANIME.filter((_, idx) => idx % 2 === 0),
   );
   const [row2Anime, setRow2Anime] = useState(() =>
-    FALLBACK_ANIME.filter((_, idx) => idx % 2 !== 0)
+    FALLBACK_ANIME.filter((_, idx) => idx % 2 !== 0),
   );
   const [stats, setStats] = useState({
     totalAnime: 250,
     totalStudios: 70,
     totalGenres: 80,
-    totalRelationships: 5000
+    totalRelationships: 5000,
   });
 
   useEffect(() => {
@@ -33,11 +33,11 @@ export const HomePage = () => {
             totalAnime: res.data.totalAnime || 250,
             totalStudios: res.data.totalStudios || 70,
             totalGenres: res.data.totalGenres || 80,
-            totalRelationships: res.data.totalRelationships || 5000
+            totalRelationships: res.data.totalRelationships || 5000,
           });
         }
       } catch (err) {
-        console.debug('Using cached stats data:', err.message);
+        console.debug("Using cached stats data:", err.message);
       }
     };
 
@@ -54,7 +54,7 @@ export const HomePage = () => {
           if (oddItems.length > 0) setRow2Anime(oddItems);
         }
       } catch (err) {
-        console.debug('Using fallback anime for marquee:', err.message);
+        console.debug("Using fallback anime for marquee:", err.message);
       }
     };
 
@@ -67,7 +67,7 @@ export const HomePage = () => {
     if (searchQuery.trim()) {
       navigate(`/discover?search=${encodeURIComponent(searchQuery.trim())}`);
     } else {
-      navigate('/discover');
+      navigate("/discover");
     }
   };
 
@@ -85,10 +85,7 @@ export const HomePage = () => {
         totalAnime={stats.totalAnime}
       />
 
-      <AnimeMarqueeWall
-        row1Anime={row1Anime}
-        row2Anime={row2Anime}
-      />
+      <AnimeMarqueeWall row1Anime={row1Anime} row2Anime={row2Anime} />
 
       <StatsShowcase stats={stats} />
 

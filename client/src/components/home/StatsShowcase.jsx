@@ -1,8 +1,11 @@
-import { STATS_ITEMS } from '../../constants/homeData.js';
+import { STATS_ITEMS } from "../../constants/homeData.js";
 
 export const StatsShowcase = ({ stats = {} }) => {
   return (
-    <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-10" aria-label="Knowledge Graph Statistics">
+    <section
+      className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-10"
+      aria-label="Knowledge Graph Statistics"
+    >
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {STATS_ITEMS.map((item) => (
           <div

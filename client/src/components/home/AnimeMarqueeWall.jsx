@@ -1,8 +1,11 @@
-import AnimeMarqueeCard from './AnimeMarqueeCard.jsx';
+import AnimeMarqueeCard from "./AnimeMarqueeCard.jsx";
 
 export const AnimeMarqueeWall = ({ row1Anime = [], row2Anime = [] }) => {
   return (
-    <section className="w-full py-4 overflow-hidden relative mask-marquee-edges my-1" aria-label="Anime Showcase Marquee">
+    <section
+      className="w-full py-4 overflow-hidden relative mask-marquee-edges my-1"
+      aria-label="Anime Showcase Marquee"
+    >
       {/* Row 1 - Even Index Anime (Scrolling Left) */}
       <div className="mb-3">
         <div className="animate-marquee-slow flex gap-3 sm:gap-3.5">

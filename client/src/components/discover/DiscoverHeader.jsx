@@ -1,4 +1,4 @@
-import { Compass } from 'lucide-react';
+import { Compass } from "lucide-react";
 
 export const DiscoverHeader = ({ totalItems = 0, loading = false }) => {
   return (
@@ -16,7 +16,11 @@ export const DiscoverHeader = ({ totalItems = 0, loading = false }) => {
       <div className="text-xs text-typography-300">
         {!loading && (
           <span>
-            Showing <strong className="text-typography-100 font-semibold">{totalItems}</strong> entries
+            Showing{" "}
+            <strong className="text-typography-100 font-semibold">
+              {totalItems}
+            </strong>{" "}
+            entries
           </span>
         )}
       </div>

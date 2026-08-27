@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Outfit', sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Outfit", sans-serif;
 
   --color-background-500: var(--background-500);
   --color-background-400: var(--background-400);
@@ -32,28 +32,28 @@
   :root {
     --accent: var(--primary-400);
 
-    --background-500: #3C4558;
-    --background-400: #262F43;
-    --background-300: #1F2635;
+    --background-500: #3c4558;
+    --background-400: #262f43;
+    --background-300: #1f2635;
     --background-200: #161922;
     --background-100: #121419;
-    --background-000: #0F1115;
+    --background-000: #0f1115;
 
     --primary-900: #041354;
-    --primary-800: #071B66;
-    --primary-700: #0C287F;
+    --primary-800: #071b66;
+    --primary-700: #0c287f;
     --primary-600: #113698;
-    --primary-500: #1847B1;
-    --primary-400: #4976D0;
-    --primary-300: #6F9BE7;
-    --primary-200: #A1C4F7;
-    --primary-100: #DBE6FF;
-    --primary-000: #F1F6FF;
+    --primary-500: #1847b1;
+    --primary-400: #4976d0;
+    --primary-300: #6f9be7;
+    --primary-200: #a1c4f7;
+    --primary-100: #dbe6ff;
+    --primary-000: #f1f6ff;
 
-    --typography-100: #DBE6FF;
-    --typography-200: #A1C4F7;
-    --typography-300: #99A8C9;
-    --typography-400: #8998B8;
+    --typography-100: #dbe6ff;
+    --typography-200: #a1c4f7;
+    --typography-300: #99a8c9;
+    --typography-400: #8998b8;
   }
 
   * {
@@ -85,7 +85,6 @@
     outline-offset: 2px;
   }
 }
-
 
 @layer utilities {
   .flex-center {
@@ -126,8 +125,20 @@
   }
 
   .mask-marquee-edges {
-    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -141,11 +152,19 @@
 }
 
 @keyframes marquee-left {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes marquee-right {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0%); }
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }

@@ -1,23 +1,23 @@
-import { useState, useEffect, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { AlertCircle } from 'lucide-react';
-import { fetchAnimeList } from '../api/client.js';
-import Pagination from '../components/common/Pagination.jsx';
-import DiscoverHeader from '../components/discover/DiscoverHeader.jsx';
-import DiscoverFilters from '../components/discover/DiscoverFilters.jsx';
-import DiscoverGrid from '../components/discover/DiscoverGrid.jsx';
+import { useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import { AlertCircle } from "lucide-react";
+import { fetchAnimeList } from "../api/client.js";
+import Pagination from "../components/common/Pagination.jsx";
+import DiscoverHeader from "../components/discover/DiscoverHeader.jsx";
+import DiscoverFilters from "../components/discover/DiscoverFilters.jsx";
+import DiscoverGrid from "../components/discover/DiscoverGrid.jsx";
 
 const PAGE_SIZE = 28;
 
 export const DiscoverPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const urlSearch = searchParams.get('search') || '';
+  const urlSearch = searchParams.get("search") || "";
 
   const [searchInput, setSearchInput] = useState(urlSearch);
   const [prevUrlSearch, setPrevUrlSearch] = useState(urlSearch);
-  const [selectedFormat, setSelectedFormat] = useState('ALL');
+  const [selectedFormat, setSelectedFormat] = useState("ALL");
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const [sortBy, setSortBy] = useState('score');
+  const [sortBy, setSortBy] = useState("score");
   const [currentPage, setCurrentPage] = useState(1);
 
   const [animeList, setAnimeList] = useState([]);
@@ -40,14 +40,20 @@ export const DiscoverPage = () => {
 
       try {
         const queryTerm = urlSearch.trim();
-        const res = await fetchAnimeList({ search: queryTerm, page: 1, limit: 250 });
+        const res = await fetchAnimeList({
+          search: queryTerm,
+          page: 1,
+          limit: 250,
+        });
         if (isMounted) {
           setAnimeList(res.data || []);
         }
       } catch (err) {
         if (isMounted) {
-          console.error('Error fetching anime:', err);
-          setError('Failed to fetch anime from knowledge graph. Please check if the server is running.');
+          console.error("Error fetching anime:", err);
+          setError(
+            "Failed to fetch anime from knowledge graph. Please check if the server is running.",
+          );
         }
       } finally {
         if (isMounted) {
@@ -81,7 +87,7 @@ export const DiscoverPage = () => {
 
   // Handle Clear Search
   const handleSearchClear = () => {
-    setSearchInput('');
+    setSearchInput("");
     setCurrentPage(1);
     setSearchParams({});
   };
@@ -89,7 +95,7 @@ export const DiscoverPage = () => {
   // Handle Genre Toggle (Multi-select)
   const handleGenreToggle = (genre) => {
     setSelectedGenres((prev) =>
-      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
+      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre],
     );
     setCurrentPage(1);
   };
@@ -105,28 +111,30 @@ export const DiscoverPage = () => {
     let result = [...animeList];
 
     // Format Filter
-    if (selectedFormat !== 'ALL') {
+    if (selectedFormat !== "ALL") {
       result = result.filter((a) => a.format === selectedFormat);
     }
 
     // Genre Filter (Multi-select: Anime must contain all selected genres)
     if (selectedGenres.length > 0) {
       result = result.filter(
-        (a) => Array.isArray(a.genres) && selectedGenres.every((g) => a.genres.includes(g))
+        (a) =>
+          Array.isArray(a.genres) &&
+          selectedGenres.every((g) => a.genres.includes(g)),
       );
     }
 
     // Sorting
     result.sort((a, b) => {
-      if (sortBy === 'score') {
+      if (sortBy === "score") {
         return (b.averageScore || 0) - (a.averageScore || 0);
       }
-      if (sortBy === 'year') {
+      if (sortBy === "year") {
         return (b.seasonYear || 0) - (a.seasonYear || 0);
       }
-      if (sortBy === 'title') {
-        const titleA = a.titleEnglish || a.titleRomaji || '';
-        const titleB = b.titleEnglish || b.titleRomaji || '';
+      if (sortBy === "title") {
+        const titleA = a.titleEnglish || a.titleRomaji || "";
+        const titleB = b.titleEnglish || b.titleRomaji || "";
         return titleA.localeCompare(titleB);
       }
       return 0;
@@ -145,14 +153,14 @@ export const DiscoverPage = () => {
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleResetFilters = () => {
-    setSearchInput('');
-    setSelectedFormat('ALL');
+    setSearchInput("");
+    setSelectedFormat("ALL");
     setSelectedGenres([]);
-    setSortBy('score');
+    setSortBy("score");
     setCurrentPage(1);
     setSearchParams({});
   };

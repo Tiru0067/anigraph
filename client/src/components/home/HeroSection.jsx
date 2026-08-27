@@ -1,8 +1,14 @@
-import { motion } from 'motion/react';
-import { Search, Sparkles, ArrowRight, Flame } from 'lucide-react';
-import { POPULAR_SEARCHES } from '../../constants/homeData.js';
+import { motion } from "motion/react";
+import { Search, Sparkles, ArrowRight, Flame } from "lucide-react";
+import { POPULAR_SEARCHES } from "../../constants/homeData.js";
 
-export const HeroSection = ({ searchQuery, setSearchQuery, onSearchSubmit, onQuickSearch, totalAnime = 100 }) => {
+export const HeroSection = ({
+  searchQuery,
+  setSearchQuery,
+  onSearchSubmit,
+  onQuickSearch,
+  totalAnime = 100,
+}) => {
   return (
     <section className="w-full max-w-5xl mx-auto px-4 sm:px-6 pt-10 pb-6 flex flex-col items-center text-center relative z-10">
       {/* Glow badge */}
@@ -36,7 +42,9 @@ export const HeroSection = ({ searchQuery, setSearchQuery, onSearchSubmit, onQui
         transition={{ duration: 0.5, delay: 0.15 }}
         className="text-typography-300 text-xs sm:text-sm max-w-xl mb-6 leading-relaxed"
       >
-        Explore anime connections across shared animation studios, creative directors, voice actors, and ranked tags using openCypher graph traversals.
+        Explore anime connections across shared animation studios, creative
+        directors, voice actors, and ranked tags using openCypher graph
+        traversals.
       </motion.p>
 
       {/* Compact Search Bar */}

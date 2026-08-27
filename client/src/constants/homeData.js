@@ -1,4 +1,4 @@
-import { GitBranch, Layers, Database } from 'lucide-react';
+import { GitBranch, Layers, Database } from "lucide-react";
 
 export const POPULAR_SEARCHES = [
   "Attack on Titan",
@@ -8,7 +8,7 @@ export const POPULAR_SEARCHES = [
   "Chainsaw Man",
   "Steins;Gate",
   "Military",
-  "Psychological"
+  "Psychological",
 ];
 
 export const FALLBACK_ANIME = [
@@ -16,165 +16,182 @@ export const FALLBACK_ANIME = [
     id: 154587,
     titleRomaji: "Sousou no Frieren",
     titleEnglish: "Frieren: Beyond Journey's End",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx154587-n1fmjvsrJCY5.jpg",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx154587-n1fmjvsrJCY5.jpg",
     averageScore: 93,
     format: "TV",
     seasonYear: 2023,
-    studios: ["Madhouse"]
+    studios: ["Madhouse"],
   },
   {
     id: 16498,
     titleRomaji: "Shingeki no Kyojin",
     titleEnglish: "Attack on Titan",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx16498-buvcRTBx4NSm.jpg",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx16498-buvcRTBx4NSm.jpg",
     averageScore: 85,
     format: "TV",
     seasonYear: 2013,
-    studios: ["WIT Studio"]
+    studios: ["WIT Studio"],
   },
   {
     id: 5114,
     titleRomaji: "Hagane no Renkinjutsushi: FULLMETAL ALCHEMIST",
     titleEnglish: "Fullmetal Alchemist: Brotherhood",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx5114-18SpdaogizVn.jpg",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx5114-18SpdaogizVn.jpg",
     averageScore: 90,
     format: "TV",
     seasonYear: 2009,
-    studios: ["Bones"]
+    studios: ["Bones"],
   },
   {
     id: 127230,
     titleRomaji: "Chainsaw Man",
     titleEnglish: "Chainsaw Man",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx127230-FloXNczZrFjd.png",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx127230-FloXNczZrFjd.png",
     averageScore: 84,
     format: "TV",
     seasonYear: 2022,
-    studios: ["MAPPA"]
+    studios: ["MAPPA"],
   },
   {
     id: 9253,
     titleRomaji: "Steins;Gate",
     titleEnglish: "Steins;Gate",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx9253-159i58uhb9ee.jpg",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx9253-159i58uhb9ee.jpg",
     averageScore: 89,
     format: "TV",
     seasonYear: 2011,
-    studios: ["White Fox"]
+    studios: ["White Fox"],
   },
   {
     id: 1535,
     titleRomaji: "Death Note",
     titleEnglish: "Death Note",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1535-lawZEMV2H7aZ.jpg",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1535-lawZEMV2H7aZ.jpg",
     averageScore: 84,
     format: "TV",
     seasonYear: 2006,
-    studios: ["Madhouse"]
+    studios: ["Madhouse"],
   },
   {
     id: 144411,
     titleRomaji: "BLEACH: Sennen Kessen-hen",
     titleEnglish: "Bleach: Thousand-Year Blood War",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx144411-xTvHspTqVq0F.jpg",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx144411-xTvHspTqVq0F.jpg",
     averageScore: 88,
     format: "TV",
     seasonYear: 2022,
-    studios: ["Pierrot"]
+    studios: ["Pierrot"],
   },
   {
     id: 1575,
     titleRomaji: "Code Geass: Hangyaku no Lelouch",
     titleEnglish: "Code Geass: Lelouch of the Rebellion",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1575-P7iJ532h1Rsz.png",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1575-P7iJ532h1Rsz.png",
     averageScore: 85,
     format: "TV",
     seasonYear: 2006,
-    studios: ["Sunrise"]
+    studios: ["Sunrise"],
   },
   {
     id: 11061,
     titleRomaji: "Hunter x Hunter (2011)",
     titleEnglish: "Hunter x Hunter (2011)",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx11061-sIpBprNRgkx1.jpg",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx11061-sIpBprNRgkx1.jpg",
     averageScore: 89,
     format: "TV",
     seasonYear: 2011,
-    studios: ["Madhouse"]
+    studios: ["Madhouse"],
   },
   {
     id: 101922,
     titleRomaji: "Kimetsu no Yaiba",
     titleEnglish: "Demon Slayer: Kimetsu no Yaiba",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101922-PEn1CTyeRJb3.png",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101922-PEn1CTyeRJb3.png",
     averageScore: 84,
     format: "TV",
     seasonYear: 2019,
-    studios: ["ufotable"]
+    studios: ["ufotable"],
   },
   {
     id: 101348,
     titleRomaji: "Vinland Saga",
     titleEnglish: "Vinland Saga",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101348-1U6kErTj4p0F.jpg",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101348-1U6kErTj4p0F.jpg",
     averageScore: 88,
     format: "TV",
     seasonYear: 2019,
-    studios: ["WIT Studio"]
+    studios: ["WIT Studio"],
   },
   {
     id: 120377,
     titleRomaji: "Cyberpunk: EDGERUNNERS",
     titleEnglish: "Cyberpunk: Edgerunners",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx120377-6k2Ew1G02mBf.jpg",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx120377-6k2Ew1G02mBf.jpg",
     averageScore: 85,
     format: "ONA",
     seasonYear: 2022,
-    studios: ["Trigger"]
+    studios: ["Trigger"],
   },
   {
     id: 113415,
     titleRomaji: "Jujutsu Kaisen",
     titleEnglish: "Jujutsu Kaisen",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx113415-bbBWj4pQC3DE.jpg",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx113415-bbBWj4pQC3DE.jpg",
     averageScore: 85,
     format: "TV",
     seasonYear: 2020,
-    studios: ["MAPPA"]
+    studios: ["MAPPA"],
   },
   {
     id: 21827,
     titleRomaji: "Violet Evergarden",
     titleEnglish: "Violet Evergarden",
-    coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21827-0402b8x2f1.jpg",
+    coverImage:
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21827-0402b8x2f1.jpg",
     averageScore: 85,
     format: "TV",
     seasonYear: 2018,
-    studios: ["Kyoto Animation"]
-  }
+    studios: ["Kyoto Animation"],
+  },
 ];
 
 export const STATS_ITEMS = [
   {
     key: "totalAnime",
     title: "ANIME ENTRIES",
-    description: "Curated top anime and seasonal hits loaded with rich AniList metadata."
+    description:
+      "Curated top anime and seasonal hits loaded with rich AniList metadata.",
   },
   {
     key: "totalStudios",
     title: "STUDIOS & DIRECTORS",
-    description: "Animation houses like WIT, MAPPA, Madhouse & series chief directors."
+    description:
+      "Animation houses like WIT, MAPPA, Madhouse & series chief directors.",
   },
   {
     key: "totalGenres",
     title: "GENRES & RANKED TAGS",
-    description: "Thematic categories with community relevance percentages."
+    description: "Thematic categories with community relevance percentages.",
   },
   {
     key: "totalRelationships",
     title: "GRAPH RELATIONSHIPS",
-    description: "Multi-hop Cypher connections enabling explainable recommendations."
-  }
+    description:
+      "Multi-hop Cypher connections enabling explainable recommendations.",
+  },
 ];
 
 export const GRAPH_FEATURES = [
@@ -182,21 +199,24 @@ export const GRAPH_FEATURES = [
     id: "multi-hop",
     icon: GitBranch,
     title: "Multi-Hop Creative Links",
-    description: "Connects anime through shared directors (e.g. Tetsurou Araki for Death Note & Attack on Titan) and animation studios in 2-hop traversals.",
-    snippet: "MATCH (a)-[r1]->(shared)<-[r2]-(rec)"
+    description:
+      "Connects anime through shared directors (e.g. Tetsurou Araki for Death Note & Attack on Titan) and animation studios in 2-hop traversals.",
+    snippet: "MATCH (a)-[r1]->(shared)<-[r2]-(rec)",
   },
   {
     id: "weighted-scores",
     icon: Layers,
     title: "Weighted Relationship Scores",
-    description: "Tags hold community relevance percentages (rank: 95%) directly on the edge, dynamically scaling the recommendation match score.",
-    snippet: "(r1.rank * r2.rank) / 1000.0"
+    description:
+      "Tags hold community relevance percentages (rank: 95%) directly on the edge, dynamically scaling the recommendation match score.",
+    snippet: "(r1.rank * r2.rank) / 1000.0",
   },
   {
     id: "explainable",
     icon: Database,
     title: "Explainable Recommendations",
-    description: "No black-box recommendations. Every suggestion displays exact reasons like 'Same Director', 'Same Studio', or 'Shared Tag: Military'.",
-    snippet: "collect({ type: type(r1), name: ... })"
-  }
+    description:
+      "No black-box recommendations. Every suggestion displays exact reasons like 'Same Director', 'Same Studio', or 'Shared Tag: Military'.",
+    snippet: "collect({ type: type(r1), name: ... })",
+  },
 ];

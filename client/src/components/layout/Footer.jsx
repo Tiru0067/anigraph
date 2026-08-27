@@ -1,4 +1,4 @@
-import { Network, Database } from 'lucide-react';
+import { Network, Database } from "lucide-react";
 
 export const Footer = () => {
   return (
@@ -10,7 +10,9 @@ export const Footer = () => {
             <Network className="w-4 h-4" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-typography-100">AniGraph</p>
+            <p className="text-sm font-semibold text-typography-100">
+              AniGraph
+            </p>
             <p className="text-xs text-typography-400">
               Anime Knowledge Graph & Recommendation Engine
             </p>
@@ -22,7 +24,14 @@ export const Footer = () => {
           <div className="flex items-center gap-1.5">
             <Database className="w-3.5 h-3.5 text-primary-300" />
             <span>
-              Powered by <strong className="text-typography-100 font-medium">CognoDB Cloud</strong> & <strong className="text-typography-100 font-medium">AniList GraphQL</strong>
+              Powered by{" "}
+              <strong className="text-typography-100 font-medium">
+                CognoDB Cloud
+              </strong>{" "}
+              &{" "}
+              <strong className="text-typography-100 font-medium">
+                AniList GraphQL
+              </strong>
             </span>
           </div>
         </div>

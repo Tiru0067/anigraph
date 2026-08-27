@@ -1,6 +1,10 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export const Pagination = ({ currentPage = 1, totalPages = 1, onPageChange }) => {
+export const Pagination = ({
+  currentPage = 1,
+  totalPages = 1,
+  onPageChange,
+}) => {
   if (totalPages <= 1) return null;
 
   // Generate page numbers with ellipses
@@ -23,9 +27,9 @@ export const Pagination = ({ currentPage = 1, totalPages = 1, onPageChange }) =>
         end = totalPages - 1;
       }
 
-      if (start > 2) pages.push('...');
+      if (start > 2) pages.push("...");
       for (let i = start; i <= end; i++) pages.push(i);
-      if (end < totalPages - 1) pages.push('...');
+      if (end < totalPages - 1) pages.push("...");
       pages.push(totalPages);
     }
     return pages;
@@ -34,16 +38,20 @@ export const Pagination = ({ currentPage = 1, totalPages = 1, onPageChange }) =>
   const pages = getPageNumbers();
 
   return (
-    <nav className="flex items-center justify-center gap-1.5 mt-10" aria-label="Pagination Navigation">
+    <nav
+      className="flex items-center justify-center gap-1.5 mt-10"
+      aria-label="Pagination Navigation"
+    >
       {/* Prev Button */}
       <button
         type="button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`flex items-center gap-1 px-3 py-1.75 rounded-lg text-xs font-medium border transition-all ${currentPage === 1
-            ? 'opacity-40 cursor-not-allowed border-background-400/20 text-typography-400 bg-background-200'
-            : 'cursor-pointer border-background-400/30 text-typography-200 hover:text-typography-100 hover:bg-background-300 bg-background-200'
-          }`}
+        className={`flex items-center gap-1 px-3 py-1.75 rounded-lg text-xs font-medium border transition-all ${
+          currentPage === 1
+            ? "opacity-40 cursor-not-allowed border-background-400/20 text-typography-400 bg-background-200"
+            : "cursor-pointer border-background-400/30 text-typography-200 hover:text-typography-100 hover:bg-background-300 bg-background-200"
+        }`}
         aria-label="Previous Page"
       >
         <ChevronLeft className="w-4 h-4" />
@@ -52,7 +60,7 @@ export const Pagination = ({ currentPage = 1, totalPages = 1, onPageChange }) =>
 
       {/* Page Numbers */}
       {pages.map((pageNum, index) => {
-        if (pageNum === '...') {
+        if (pageNum === "...") {
           return (
             <span
               key={`ellipsis-${index}`}
@@ -69,10 +77,11 @@ export const Pagination = ({ currentPage = 1, totalPages = 1, onPageChange }) =>
             key={pageNum}
             type="button"
             onClick={() => onPageChange(pageNum)}
-            className={`min-w-8.5 h-8.5 flex items-center justify-center rounded-lg text-xs font-semibold border transition-all cursor-pointer ${isActive
-                ? 'bg-primary-500 text-typography-000 border-primary-400 shadow-md shadow-primary-500/20'
-                : 'bg-background-200 border-background-400/30 text-typography-300 hover:text-typography-100 hover:bg-background-300'
-              }`}
+            className={`min-w-8.5 h-8.5 flex items-center justify-center rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
+              isActive
+                ? "bg-primary-500 text-typography-000 border-primary-400 shadow-md shadow-primary-500/20"
+                : "bg-background-200 border-background-400/30 text-typography-300 hover:text-typography-100 hover:bg-background-300"
+            }`}
           >
             {pageNum}
           </button>
@@ -84,10 +93,11 @@ export const Pagination = ({ currentPage = 1, totalPages = 1, onPageChange }) =>
         type="button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`flex items-center gap-1 px-3 py-1.75 rounded-lg text-xs font-medium border transition-all ${currentPage === totalPages
-            ? 'opacity-40 cursor-not-allowed border-background-400/20 text-typography-400 bg-background-200'
-            : 'cursor-pointer border-background-400/30 text-typography-200 hover:text-typography-100 hover:bg-background-300 bg-background-200'
-          }`}
+        className={`flex items-center gap-1 px-3 py-1.75 rounded-lg text-xs font-medium border transition-all ${
+          currentPage === totalPages
+            ? "opacity-40 cursor-not-allowed border-background-400/20 text-typography-400 bg-background-200"
+            : "cursor-pointer border-background-400/30 text-typography-200 hover:text-typography-100 hover:bg-background-300 bg-background-200"
+        }`}
         aria-label="Next Page"
       >
         <span className="hidden sm:inline">Next</span>

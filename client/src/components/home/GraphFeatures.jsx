@@ -1,10 +1,13 @@
-import { Link } from 'react-router-dom';
-import { Compass, ArrowRight } from 'lucide-react';
-import { GRAPH_FEATURES } from '../../constants/homeData.js';
+import { Link } from "react-router-dom";
+import { Compass, ArrowRight } from "lucide-react";
+import { GRAPH_FEATURES } from "../../constants/homeData.js";
 
 export const GraphFeatures = () => {
   return (
-    <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-10 border-t border-background-400/20" aria-label="Features and Graph Benefits">
+    <section
+      className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-10 border-t border-background-400/20"
+      aria-label="Features and Graph Benefits"
+    >
       <div className="text-center max-w-2xl mx-auto mb-8">
         <span className="text-xs font-bold uppercase tracking-wider text-primary-300">
           Intelligent Traversal
@@ -13,7 +16,9 @@ export const GraphFeatures = () => {
           Why Graph Traversal Beats Standard SQL
         </h2>
         <p className="text-typography-300 text-xs sm:text-sm">
-          Instead of heavy junction table joins, AniGraph traverses creative staff, studio DNA, and deep thematic ranks in single openCypher queries.
+          Instead of heavy junction table joins, AniGraph traverses creative
+          staff, studio DNA, and deep thematic ranks in single openCypher
+          queries.
         </p>
       </div>
 

@@ -1,12 +1,19 @@
-import { Link } from 'react-router-dom';
-import { Home, Compass } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { Home, Compass } from "lucide-react";
 
 export const NotFoundPage = () => {
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-4 py-24 text-center">
-      <section className="max-w-md mx-auto flex flex-col items-center" aria-label="Error 404">
-        <div className="text-7xl font-extrabold font-display text-primary-400/30 mb-4">404</div>
-        <h1 className="text-2xl sm:text-3xl font-bold font-display text-typography-100 mb-2">Page Not Found</h1>
+      <section
+        className="max-w-md mx-auto flex flex-col items-center"
+        aria-label="Error 404"
+      >
+        <div className="text-7xl font-extrabold font-display text-primary-400/30 mb-4">
+          404
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-bold font-display text-typography-100 mb-2">
+          Page Not Found
+        </h1>
         <p className="text-typography-300 text-sm mb-8 leading-relaxed">
           The page or node you are looking for does not exist in this graph.
         </p>
