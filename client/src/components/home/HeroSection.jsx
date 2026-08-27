@@ -10,7 +10,7 @@ export const HeroSection = ({ searchQuery, setSearchQuery, onSearchSubmit, onQui
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-500/15 border border-primary-400/30 text-primary-200 text-[11px] font-semibold tracking-wide uppercase mb-4 shadow-sm backdrop-blur-md"
+        className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary-500/15 border border-primary-400/30 text-primary-200 text-[11px] font-semibold tracking-wide uppercase mb-4 shadow-sm backdrop-blur-md"
       >
         <Sparkles className="w-3 h-3 text-primary-300 animate-pulse" />
         <span>Graph Traversal & Staff Recommendation Engine</span>
@@ -70,9 +70,9 @@ export const HeroSection = ({ searchQuery, setSearchQuery, onSearchSubmit, onQui
         </form>
 
         {/* Popular Search Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-1.5 mt-3 text-[11px]">
-          <span className="text-typography-400 font-medium flex items-center gap-1 text-[11px]">
-            <Flame className="w-3 h-3 text-primary-300" />
+        <div className="flex flex-wrap items-center justify-center gap-1.5 mt-3 text-xs">
+          <span className="text-typography-400 font-medium flex items-center gap-1 text-xs">
+            <Flame className="w-3.5 h-3.5 text-primary-300" />
             Popular:
           </span>
           {POPULAR_SEARCHES.map((tag) => (
@@ -80,7 +80,7 @@ export const HeroSection = ({ searchQuery, setSearchQuery, onSearchSubmit, onQui
               key={tag}
               type="button"
               onClick={() => onQuickSearch(tag)}
-              className="px-2 py-0.5 rounded-md bg-background-200 hover:bg-background-300 border border-background-400/30 text-typography-200 hover:text-typography-100 transition-all cursor-pointer text-[11px]"
+              className="px-2 py-0.5 rounded-md bg-background-200 hover:bg-background-300 border border-background-400/30 text-typography-200 hover:text-typography-100 transition-all cursor-pointer text-xs"
             >
               {tag}
             </button>

@@ -161,8 +161,8 @@ export const DiscoverPage = () => {
       {/* Header */}
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-background-400/25 mb-6">
         <div>
-          <div className="flex items-center gap-1.5 text-primary-300 text-xs font-semibold uppercase tracking-wider mb-1">
-            <Compass className="w-3.5 h-3.5" />
+          <div className="flex items-center gap-1.5 text-primary-300 text-[11.5px] font-semibold uppercase tracking-wider mb-1">
+            <Compass className="mb-0.5 w-3.25 h-3.25" />
             <span>Catalog Explorer</span>
           </div>
           <h1 className="text-xl sm:text-2xl font-bold font-display text-typography-100">
@@ -207,7 +207,7 @@ export const DiscoverPage = () => {
 
       {/* Loading Skeleton Grid */}
       {loading ? (
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-2.5 sm:gap-3 min-h-[60vh] sm:min-h-[70vh] content-start">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-7 gap-2.5 sm:gap-3.5 min-h-[60vh] sm:min-h-[70vh] content-start">
           {Array.from({ length: 14 }).map((_, i) => (
             <div key={`skeleton-${i}`} className="flex flex-col animate-pulse">
               <div className="aspect-2/3 w-full bg-background-200 rounded-lg border border-background-400/20" />
@@ -220,7 +220,7 @@ export const DiscoverPage = () => {
         </div>
       ) : paginatedAnime.length > 0 ? (
         /* Anime Grid */
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-3 sm:gap-5 min-h-[60vh] sm:min-h-[70vh] content-start">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-7 gap-3 sm:gap-5 min-h-[60vh] sm:min-h-[70vh] content-start">
           {paginatedAnime.map((anime) => (
             <AnimeCard key={anime.id} anime={anime} />
           ))}

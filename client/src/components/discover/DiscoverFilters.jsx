@@ -99,8 +99,8 @@ export const DiscoverFilters = ({
 
       {/* Bottom Row: Genre Pills */}
       <div className="flex flex-wrap items-center gap-1.5 text-xs">
-        <span className="text-typography-400 text-[11px] font-semibold uppercase tracking-wider mr-1 flex items-center gap-1 flex-shrink-0">
-          <Filter className="w-3 h-3 text-primary-300" />
+        <span className="text-typography-400 text-xs font-semibold uppercase tracking-wider mr-1.5 flex items-center gap-1.5 flex-shrink-0">
+          <Filter className="w-3.5 h-3.5 text-primary-300" />
           <span>Genres{selectedGenres.length > 0 ? ` (${selectedGenres.length})` : ''}:</span>
         </span>
 

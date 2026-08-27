@@ -12,10 +12,10 @@ export const StatsShowcase = ({ stats = {} }) => {
             <span className="text-2xl sm:text-3xl font-black font-display text-typography-100 tracking-tight mb-0.5">
               {stats[item.key] || 0}+
             </span>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-primary-300 mb-1">
+            <span className="text-xs font-bold uppercase tracking-wider text-primary-300 mb-1">
               {item.title}
             </span>
-            <p className="text-[11px] text-typography-300 leading-snug">
+            <p className="text-xs text-typography-300 leading-snug">
               {item.description}
             </p>
           </div>

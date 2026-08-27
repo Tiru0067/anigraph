@@ -6,7 +6,7 @@ export const GraphFeatures = () => {
   return (
     <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-10 border-t border-background-400/20" aria-label="Features and Graph Benefits">
       <div className="text-center max-w-2xl mx-auto mb-8">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-primary-300">
+        <span className="text-xs font-bold uppercase tracking-wider text-primary-300">
           Intelligent Traversal
         </span>
         <h2 className="text-xl sm:text-2xl font-bold font-display text-typography-100 mt-1 mb-2">
@@ -36,7 +36,7 @@ export const GraphFeatures = () => {
                   {feature.description}
                 </p>
               </div>
-              <div className="mt-3 pt-3 border-t border-background-400/20 text-[11px] font-mono text-primary-300">
+              <div className="mt-3 pt-3 border-t border-background-400/20 text-xs font-mono text-primary-300">
                 {feature.snippet}
               </div>
             </div>
