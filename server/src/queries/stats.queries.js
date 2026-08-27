@@ -1,14 +1,18 @@
 /**
  * Stats Cypher Queries
  */
+
 export const GET_GRAPH_STATS = `
   MATCH (a:Anime)
-  OPTIONAL MATCH (s:Studio)
-  OPTIONAL MATCH (g:Genre)
-  OPTIONAL MATCH ()-[r]->()
+  WITH count(a) AS totalAnime
+  MATCH (s:Studio)
+  WITH totalAnime, count(s) AS totalStudios
+  MATCH (g:Genre)
+  WITH totalAnime, totalStudios, count(g) AS totalGenres
+  MATCH ()-[r]->()
   RETURN 
-    count(DISTINCT a) AS totalAnime,
-    count(DISTINCT s) AS totalStudios,
-    count(DISTINCT g) AS totalGenres,
+    totalAnime,
+    totalStudios,
+    totalGenres,
     count(r) AS totalRelationships
 `;
