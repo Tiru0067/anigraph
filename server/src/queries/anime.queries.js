@@ -2,7 +2,7 @@
  * Anime Cypher Queries
  */
 
-// 1. Get all anime (ordered by score)
+// 1. Get all anime (ordered by score, paginated)
 export const GET_ALL_ANIME = `
   MATCH (a:Anime)
   OPTIONAL MATCH (a)-[:HAS_GENRE]->(g:Genre)
@@ -18,10 +18,11 @@ export const GET_ALL_ANIME = `
          collect(DISTINCT g.name) AS genres,
          collect(DISTINCT s.name) AS studios
   ORDER BY a.averageScore DESC
+  SKIP $skip
   LIMIT $limit
 `;
 
-// 2. Search anime by title
+// 2. Search anime by title (paginated)
 export const SEARCH_ANIME = `
   MATCH (a:Anime)
   WHERE toLower(a.titleRomaji) CONTAINS toLower($search) 
@@ -39,7 +40,8 @@ export const SEARCH_ANIME = `
          collect(DISTINCT g.name) AS genres,
          collect(DISTINCT s.name) AS studios
   ORDER BY a.averageScore DESC
-  LIMIT 30
+  SKIP $skip
+  LIMIT $limit
 `;
 
 // 3. Get single anime details by ID

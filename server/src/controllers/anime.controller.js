@@ -7,23 +7,35 @@ import {
 } from '../queries/anime.queries.js';
 
 /**
- * Get anime list with optional search query
- * Route: GET /api/anime?search=...&limit=...
+ * Get anime list with pagination and optional search query
+ * Route: GET /api/anime?search=...&page=...&limit=...
  */
 export const getAnimeList = async (req, res, next) => {
   try {
-    const { search, limit } = req.query;
-    const limitNum = parseInt(limit, 10) || 50;
+    const { search, page = 1, limit = 20 } = req.query;
+
+    const pageNum = Math.max(1, parseInt(page, 10) || 1);
+    const limitNum = Math.max(1, parseInt(limit, 10) || 20);
+    const skipNum = (pageNum - 1) * limitNum;
 
     let records;
     if (search && search.trim().length > 0) {
-      records = await runQuery(SEARCH_ANIME, { search: search.trim() });
+      records = await runQuery(SEARCH_ANIME, {
+        search: search.trim(),
+        skip: skipNum,
+        limit: limitNum
+      });
     } else {
-      records = await runQuery(GET_ALL_ANIME, { limit: limitNum });
+      records = await runQuery(GET_ALL_ANIME, {
+        skip: skipNum,
+        limit: limitNum
+      });
     }
 
     res.status(200).json({
       success: true,
+      page: pageNum,
+      limit: limitNum,
       count: records.length,
       data: records
     });
