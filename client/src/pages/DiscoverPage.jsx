@@ -12,6 +12,7 @@ export const DiscoverPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialSearch = searchParams.get('search') || '';
 
+  const [searchInput, setSearchInput] = useState(initialSearch);
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [selectedFormat, setSelectedFormat] = useState('ALL');
   const [selectedGenre, setSelectedGenre] = useState('All');
@@ -22,16 +23,15 @@ export const DiscoverPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Sync state if URL query param changes
+  // Sync state if URL query param changes from external navigation
   useEffect(() => {
     const urlQuery = searchParams.get('search') || '';
-    if (urlQuery !== searchQuery) {
-      setSearchQuery(urlQuery);
-      setCurrentPage(1);
-    }
-  }, [searchParams]);
+    setSearchInput(urlQuery);
+    setSearchQuery(urlQuery);
+    setCurrentPage(1);
+  }, [searchParams.get('search')]);
 
-  // Fetch anime list from backend
+  // Fetch anime list from backend when searchQuery changes
   useEffect(() => {
     let isMounted = true;
     const loadAnime = async () => {
@@ -39,8 +39,8 @@ export const DiscoverPage = () => {
       setError(null);
 
       try {
-        // Fetch up to 250 items to enable client-side multi-filtering and instant sorting
-        const res = await fetchAnimeList({ search: searchQuery.trim(), page: 1, limit: 250 });
+        const queryTerm = searchQuery.trim();
+        const res = await fetchAnimeList({ search: queryTerm, page: 1, limit: 250 });
         if (isMounted) {
           setAnimeList(res.data || []);
         }
@@ -56,25 +56,33 @@ export const DiscoverPage = () => {
       }
     };
 
-    const timer = setTimeout(loadAnime, 300); // 300ms debounce
+    loadAnime();
     return () => {
       isMounted = false;
-      clearTimeout(timer);
     };
   }, [searchQuery]);
 
-  // Handle Search Input Change
-  const handleSearchChange = (val) => {
-    setSearchQuery(val);
+  // Handle Search Input Change (typing only)
+  const handleSearchInputChange = (val) => {
+    setSearchInput(val);
+  };
+
+  // Handle Search Form Submit (triggers search on Enter or button click)
+  const handleSearchSubmit = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    const query = searchInput.trim();
+    setSearchQuery(query);
     setCurrentPage(1);
-    if (val.trim()) {
-      setSearchParams({ search: val.trim() });
+    if (query) {
+      setSearchParams({ search: query });
     } else {
       setSearchParams({});
     }
   };
 
+  // Handle Clear Search
   const handleSearchClear = () => {
+    setSearchInput('');
     setSearchQuery('');
     setCurrentPage(1);
     setSearchParams({});
@@ -129,6 +137,7 @@ export const DiscoverPage = () => {
   };
 
   const handleResetFilters = () => {
+    setSearchInput('');
     setSearchQuery('');
     setSelectedFormat('ALL');
     setSelectedGenre('All');
@@ -138,7 +147,7 @@ export const DiscoverPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1 flex flex-col">
       {/* Header */}
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-background-400/25 mb-6">
         <div>
@@ -162,8 +171,9 @@ export const DiscoverPage = () => {
 
       {/* Filters & Search Toolbar */}
       <DiscoverFilters
-        searchQuery={searchQuery}
-        onSearchChange={handleSearchChange}
+        searchInput={searchInput}
+        onSearchInputChange={handleSearchInputChange}
+        onSearchSubmit={handleSearchSubmit}
         onSearchClear={handleSearchClear}
         selectedFormat={selectedFormat}
         onFormatChange={(fmt) => {
@@ -189,7 +199,7 @@ export const DiscoverPage = () => {
 
       {/* Loading Skeleton Grid */}
       {loading ? (
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-2.5 sm:gap-3">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-2.5 sm:gap-3 min-h-[60vh] sm:min-h-[70vh] content-start">
           {Array.from({ length: 14 }).map((_, i) => (
             <div key={`skeleton-${i}`} className="flex flex-col animate-pulse">
               <div className="aspect-2/3 w-full bg-background-200 rounded-lg border border-background-400/20" />
@@ -202,14 +212,14 @@ export const DiscoverPage = () => {
         </div>
       ) : paginatedAnime.length > 0 ? (
         /* Anime Grid */
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-3 sm:gap-5">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-3 sm:gap-5 min-h-[60vh] sm:min-h-[70vh] content-start">
           {paginatedAnime.map((anime) => (
             <AnimeCard key={anime.id} anime={anime} />
           ))}
         </div>
       ) : (
         /* Empty State */
-        <div className="rounded-2xl border border-background-400/25 bg-background-200/50 p-12 text-center my-6 flex flex-col items-center">
+        <div className="rounded-2xl border border-background-400/25 bg-background-200/50 p-12 text-center my-6 flex flex-col items-center justify-center min-h-[45vh]">
           <Film className="w-10 h-10 text-typography-400/60 mb-3" />
           <h2 className="text-base font-bold text-typography-100 mb-1">No anime found</h2>
           <p className="text-xs text-typography-300 max-w-sm mb-5">
