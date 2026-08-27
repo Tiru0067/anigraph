@@ -17,10 +17,10 @@ export const HomePage = () => {
     FALLBACK_ANIME.filter((_, idx) => idx % 2 !== 0)
   );
   const [stats, setStats] = useState({
-    totalAnime: 100,
-    totalStudios: 25,
+    totalAnime: 250,
+    totalStudios: 70,
     totalGenres: 80,
-    totalRelationships: 500
+    totalRelationships: 5000
   });
 
   useEffect(() => {
@@ -30,10 +30,10 @@ export const HomePage = () => {
         const res = await fetchStats();
         if (res && res.data) {
           setStats({
-            totalAnime: res.data.totalAnime || 100,
-            totalStudios: res.data.totalStudios || 25,
+            totalAnime: res.data.totalAnime || 250,
+            totalStudios: res.data.totalStudios || 70,
             totalGenres: res.data.totalGenres || 80,
-            totalRelationships: res.data.totalRelationships || 500
+            totalRelationships: res.data.totalRelationships || 5000
           });
         }
       } catch (err) {

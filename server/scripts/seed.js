@@ -178,10 +178,14 @@ const seed = async () => {
 
     // Fallback: If cache didn't exist or was empty/corrupted, fetch from AniList
     if (rawAnimeList.length === 0) {
-      logger.info('Fetching 80 top anime from AniList GraphQL API...');
-      const page1 = await fetchAniListData(1, 40);
-      const page2 = await fetchAniListData(2, 40);
-      rawAnimeList = [...page1, ...page2];
+      logger.info('Fetching 250 top anime from AniList GraphQL API (5 pages of 50)...');
+      rawAnimeList = [];
+      for (let p = 1; p <= 5; p++) {
+        const pageData = await fetchAniListData(p, 50);
+        rawAnimeList.push(...pageData);
+        logger.info(`Fetched page ${p}/5 (${rawAnimeList.length} total anime so far)`);
+        if (p < 5) await new Promise((resolve) => setTimeout(resolve, 350));
+      }
       fs.writeFileSync(CACHE_FILE, JSON.stringify(rawAnimeList, null, 2));
       logger.info(`Saved ${rawAnimeList.length} fresh anime records to ${CACHE_FILE}`);
     }
