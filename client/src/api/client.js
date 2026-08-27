@@ -3,7 +3,10 @@
  * Connects to the Express / CognoDB backend
  */
 
-const API_BASE = "/api";
+const API_HOST = import.meta.env.VITE_API_BASE_URL
+  ? import.meta.env.VITE_API_BASE_URL.replace(/\/$/, "")
+  : "";
+const API_BASE = `${API_HOST}/api`;
 
 export const fetchStats = async () => {
   const res = await fetch(`${API_BASE}/stats`);

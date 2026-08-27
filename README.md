@@ -2,28 +2,32 @@
 
 AniGraph is a full-stack anime discovery and recommendation web application powered by a graph database (**CognoDB Cloud / openCypher**) and real-world metadata ingested from the **AniList GraphQL API**.
 
-Instead of basic keyword matching or flat genre filters, AniGraph models anime, animation studios, creative directors, voice actors, characters, genres, and thematic tags as a deeply connected knowledge graph. It traverses multi-hop graph relationships to generate context-aware recommendations and clearly explain *why* each title was recommended.
+Instead of basic keyword matching or flat genre filters, AniGraph models anime, animation studios, creative directors, voice actors, characters, genres, and thematic tags as a deeply connected knowledge graph. It traverses multi-hop graph relationships to generate context-aware recommendations and clearly explain _why_ each title was recommended.
 
 ---
 
 ## Visual Showcase
 
 ### 1. Home Page & Live Graph Explorer
+
 Interactive hero showcase with real-time graph node metrics, quick search suggestions, and a smooth infinite marquee anime wall.
 
 ![Home Page Showcase](docs/screenshots/home.png)
 
 ### 2. Catalog Explorer & Advanced Filtering
+
 Instant search with multi-criteria filtering by format (TV, Movie, OVA), genres, animation studios, and real-time sorting.
 
 ![Discover Catalog Explorer](docs/screenshots/discover.png)
 
 ### 3. Anime Details & Hero Artwork
+
 Dynamic hero banner with backdrop artwork, responsive title hierarchy, expandable synopsis, and complete metadata sidebar.
 
 ![Anime Details Page](docs/screenshots/details-hero.png)
 
 ### 4. Multi-Hop Graph Recommendations & Explainability
+
 Graph recommendations ranked with tag-rank weighted match scores, structured reason badges (genres, tags, studio, director), and 2-hop character cast voice actors.
 
 ![Graph Recommendations & Cast](docs/screenshots/details-recommendations.png)
@@ -31,6 +35,7 @@ Graph recommendations ranked with tag-rank weighted match scores, structured rea
 ---
 
 ## Table of Contents
+
 1. [Why a Graph Database?](#why-a-graph-database)
 2. [Graph Data Model](#graph-data-model)
 3. [Core Graph Queries Explained](#core-graph-queries-explained)
@@ -49,25 +54,31 @@ A relational (SQL) database works well for tabular data, but modeling and queryi
 Here is what AniGraph achieves by leveraging a native Graph Database (**CognoDB / openCypher**) over SQL:
 
 ### 1. 2-Hop Multi-Hop Recommendations without Expensive Joins
+
 In SQL, recommending anime through shared directors, studios, thematic tags, and genres requires:
+
 - 4 separate junction tables (`anime_directors`, `anime_studios`, `anime_tags`, `anime_genres`)
 - Multi-table `JOIN`s, subqueries, and `UNION` statements
 - Heavy `GROUP BY` aggregations to score similarities
 
 In openCypher, this multi-hop traversal is expressed naturally in a concise 2-hop pattern:
+
 ```cypher
 MATCH (target:Anime {id: $id})-[r1]->(shared)<-[r2]-(rec:Anime)
 WHERE rec.id <> target.id
 ```
 
 ### 2. Relationship-Level Properties
-In AniList data, tags have community relevance ratings (e.g. *Time Travel: 95%*, *Kaiju: 93%*). In CognoDB, this `rank` is stored directly on the graph edge itself (`-[rt:HAS_TAG {rank: 93}]->`). In SQL, relationship properties demand separate columns in junction tables and extra join overhead.
+
+In AniList data, tags have community relevance ratings (e.g. _Time Travel: 95%_, _Kaiju: 93%_). In CognoDB, this `rank` is stored directly on the graph edge itself (`-[rt:HAS_TAG {rank: 93}]->`). In SQL, relationship properties demand separate columns in junction tables and extra join overhead.
 
 ### 3. Native Explainability
+
 Because every relationship in the knowledge graph has an explicit edge label (`DIRECTED_BY`, `PRODUCED_BY`, `HAS_GENRE`, `HAS_TAG`), the database returns the exact traversal path in the same query:
-- *"Same Director: Tetsurou Araki"*
-- *"Same Animation Studio: WIT Studio"*
-- *"Shared Tag: Survival (92%)"*
+
+- _"Same Director: Tetsurou Araki"_
+- _"Same Animation Studio: WIT Studio"_
+- _"Shared Tag: Survival (92%)"_
 
 ---
 
@@ -125,9 +136,9 @@ MATCH (target:Anime {id: $id})
 MATCH (target)-[r1]->(shared)<-[r2]-(rec:Anime)
 WHERE rec.id <> target.id
 
-WITH rec, 
+WITH rec,
      collect(DISTINCT {
-       type: type(r1), 
+       type: type(r1),
        name: coalesce(shared.name, labels(shared)[0])
      }) AS reasons,
      round(sum(CASE type(r1)
@@ -152,6 +163,7 @@ LIMIT $limit
 ```
 
 **Scoring Weight Breakdown:**
+
 - **Shared Creative Director**: `+6.0 points` (Directors shape tone, pacing, and visual storytelling).
 - **Shared Animation Studio**: `+4.0 points` (Studios maintain signature visual fidelity and animation styles).
 - **Shared Thematic Tag**: Scaled proportionally by multiplying both relevance ratings: `(r1.rank * r2.rank) / 1000.0` (A tag rated 90% in both adds `+8.1 points`).
@@ -211,6 +223,7 @@ RETURN totalAnime, totalStudios, totalGenres, count(r) AS totalRelationships
 ## Tech Stack
 
 ### Frontend (Client)
+
 - **Framework**: React 19 + Vite
 - **Routing**: React Router 7
 - **Styling**: Tailwind CSS v4 + Curated Dark Palette
@@ -219,6 +232,7 @@ RETURN totalAnime, totalStudios, totalGenres, count(r) AS totalRelationships
 - **Code Quality**: ESLint 9 + Prettier
 
 ### Backend (Server)
+
 - **Runtime**: Node.js (ES Modules)
 - **Framework**: Express.js
 - **Database Driver**: `neo4j-driver` (Bolt Protocol)
@@ -232,7 +246,7 @@ RETURN totalAnime, totalStudios, totalGenres, count(r) AS totalRelationships
 ```
 AniGraph/
 ├── docs/
-│   └── screenshots/              # High-resolution README screenshots
+│   └── screenshots/              # README screenshots
 │       ├── home.png
 │       ├── discover.png
 │       ├── details-hero.png
@@ -270,6 +284,7 @@ AniGraph/
 ## Setup and Run Instructions
 
 ### 1. Prerequisites
+
 - **Node.js** (v18.0 or higher)
 - **npm** (v9.0 or higher)
 - A free account on **CognoDB Cloud** (https://console.cognodb.com)
@@ -315,6 +330,7 @@ npm run seed
 # In server directory
 npm run dev
 ```
+
 Backend will start on **`http://localhost:5000`**.
 
 ---
@@ -322,28 +338,29 @@ Backend will start on **`http://localhost:5000`**.
 ### 5. Start Frontend Client
 
 In a new terminal:
+
 ```bash
 cd client
 npm install
 npm run dev
 ```
+
 Frontend application will launch at **`http://localhost:5173`**.
 
 ---
 
 ## API Endpoints
 
-| Method | Endpoint | Query Parameters | Description |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/stats` | None | Returns total counts of anime, studios, genres, and graph relationships |
-| `GET` | `/api/anime` | `?search=titan&page=1&limit=20` | Paginated catalog search by title, studio, director, or tag |
-| `GET` | `/api/anime/:id` | `id` (e.g. `16498`) | Full anime details, formatted metadata, studios, directors, and cast |
-| `GET` | `/api/anime/:id/recommendations` | `id`, `?limit=6` | Multi-hop graph recommendations with match scores and explained reasons |
+| Method | Endpoint                         | Query Parameters                | Description                                                             |
+| :----- | :------------------------------- | :------------------------------ | :---------------------------------------------------------------------- |
+| `GET`  | `/api/stats`                     | None                            | Returns total counts of anime, studios, genres, and graph relationships |
+| `GET`  | `/api/anime`                     | `?search=titan&page=1&limit=20` | Paginated catalog search by title, studio, director, or tag             |
+| `GET`  | `/api/anime/:id`                 | `id` (e.g. `16498`)             | Full anime details, formatted metadata, studios, directors, and cast    |
+| `GET`  | `/api/anime/:id/recommendations` | `id`, `?limit=6`                | Multi-hop graph recommendations with match scores and explained reasons |
 
 ---
 
 ## Demo and Submission Links
 
-- **GitHub Repository**: https://github.com/Tiru0067/AniGraph
-- **Frontend Live Demo**: *(Link to be added upon deployment)*
-- **Walkthrough Video**: *(Link to be added upon recording)*
+- **Backend API Live Service**: https://anigraph-server.onrender.com
+- **Frontend Live Demo**: _(Link to be added upon frontend deployment)_
