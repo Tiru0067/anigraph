@@ -363,4 +363,4 @@ Frontend application will launch at **`http://localhost:5173`**.
 ## Demo and Submission Links
 
 - **Backend API Live Service**: https://anigraph-server.onrender.com
-- **Frontend Live Demo**: _(Link to be added upon frontend deployment)_
+- **Frontend Live Demo**: https://anigraph-client.onrender.com

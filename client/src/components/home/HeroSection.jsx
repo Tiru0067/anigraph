@@ -10,13 +10,13 @@ export const HeroSection = ({
   totalAnime = 100,
 }) => {
   return (
-    <section className="w-full max-w-5xl mx-auto px-4 sm:px-6 pt-10 pb-6 flex flex-col items-center text-center relative z-10">
+    <section className="w-full max-w-5xl mx-auto px-3 sm:px-6 pt-10 pb-6 flex flex-col items-center text-center relative z-10">
       {/* Glow badge */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary-500/15 border border-primary-400/30 text-primary-200 text-[11px] font-semibold tracking-wide uppercase mb-4 shadow-sm backdrop-blur-md"
+        className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary-500/15 border border-primary-400/30 text-primary-200 text-[8px] sm:text-[11px] font-semibold tracking-wide uppercase mb-4 shadow-sm backdrop-blur-md"
       >
         <Sparkles className="w-3 h-3 text-primary-300 animate-pulse" />
         <span>Graph Traversal & Staff Recommendation Engine</span>
@@ -66,7 +66,7 @@ export const HeroSection = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search anime, studios (e.g. WIT Studio), directors, tags..."
-            className="flex-1 bg-transparent px-2 py-1.5 text-xs sm:text-sm text-typography-100 placeholder:text-typography-400 focus:outline-none"
+            className="flex-1 w-0 bg-transparent px-2 py-1.5 text-[13px] sm:text-sm text-typography-100 placeholder:text-typography-400 focus:outline-none truncate"
           />
           <button
             type="submit"

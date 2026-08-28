@@ -15,7 +15,7 @@ export const AnimeMarqueeCard = ({ anime, uniqueKey }) => {
     <Link
       to={`/anime/${anime.id}`}
       key={uniqueKey}
-      className="group relative shrink-0 w-32 sm:w-36 md:w-40 aspect-2/3 rounded-xl overflow-hidden bg-background-200 border border-background-400/30 hover:border-primary-400/60 shadow-md hover:shadow-xl hover:shadow-primary-500/15 transition-all duration-300 hover:-translate-y-1"
+      className="group relative shrink-0 w-26 sm:w-32 md:w-36 lg:w-40 aspect-2/3 rounded-lg overflow-hidden bg-background-200 border border-background-400/30 hover:border-primary-400/60 shadow-md hover:shadow-xl hover:shadow-primary-500/15 transition-all duration-300 hover:-translate-y-1"
     >
       <img
         src={cover}

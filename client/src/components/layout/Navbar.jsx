@@ -47,7 +47,7 @@ export const Navbar = () => {
           className="flex items-center gap-2.5 group"
           aria-label="AniGraph Home"
         >
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary-500/20 border border-primary-400/20 flex items-center justify-center text-primary-300">
+          <div className="hidden w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary-500/20 border border-primary-400/20 sm:flex items-center justify-center text-primary-300">
             <Network className="w-5 h-5" />
           </div>
           <span className="text-xl font-bold font-display tracking-tight text-typography-100">
@@ -71,7 +71,7 @@ export const Navbar = () => {
               }`
             }
           >
-            <Sparkles className="size-3.25 text-primary-100" />
+            <Sparkles className="max-sm:hidden size-3.25 text-primary-100" />
             <span>Home</span>
           </NavLink>
 
@@ -85,12 +85,12 @@ export const Navbar = () => {
               }`
             }
           >
-            <Compass className="size-3.75 text-primary-100" />
+            <Compass className="max-sm:hidden size-3.75 text-primary-100" />
             <span>Discover</span>
           </NavLink>
 
           <div
-            className="h-5 w-px bg-background-400/40 mx-1 hidden sm:block"
+            className="max-sm:hidden h-5 w-px bg-background-400/40 mx-1"
             role="separator"
           />
 
@@ -99,7 +99,7 @@ export const Navbar = () => {
             href="https://github.com/Tiru0067/AniGraph"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 text-typography-300 hover:text-typography-100 hover:bg-background-200 rounded-[10px] transition-colors"
+            className="max-sm:hidden p-2 text-typography-300 hover:text-typography-100 hover:bg-background-200 rounded-[10px] transition-colors"
             title="GitHub Repository"
             aria-label="GitHub Repository"
           >

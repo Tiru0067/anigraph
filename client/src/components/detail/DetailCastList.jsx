@@ -12,10 +12,10 @@ export const DetailCastList = ({ cast = [] }) => {
   return (
     <section className="mb-10" aria-label="Characters and Voice Cast">
       <div className="flex items-center justify-between gap-2 mb-3">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-typography-300">
+        <h2 className="text-sm font-bold uppercase tracking-wider text-typography-100/80">
           Characters & Voice Cast
         </h2>
-        <span className="text-xs text-typography-400 font-medium">
+        <span className="text-xs text-typography-100/80">
           {validCast.length} {validCast.length === 1 ? "member" : "members"}
         </span>
       </div>

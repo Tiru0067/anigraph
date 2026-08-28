@@ -166,7 +166,7 @@ export const DiscoverPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1 flex flex-col">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 w-full flex-1 flex flex-col">
       {/* Header */}
       <DiscoverHeader totalItems={totalItems} loading={loading} />
 

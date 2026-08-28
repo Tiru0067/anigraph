@@ -15,7 +15,7 @@ export const DetailRecommendations = ({
   if (loading) {
     return (
       <section className="mb-10" aria-label="Loading Recommendations">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-typography-300 mb-3">
+        <h2 className="text-sm font-bold uppercase tracking-wider text-typography-100/80 mb-3">
           Recommendations
         </h2>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(350px,1fr))] gap-3.5 sm:gap-4">
@@ -33,7 +33,7 @@ export const DetailRecommendations = ({
   if (!recommendations || recommendations.length === 0) {
     return (
       <section className="mb-10" aria-label="Recommendations">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-typography-300 mb-3">
+        <h2 className="text-sm font-bold uppercase tracking-wider text-typography-100/80 mb-3">
           Recommendations
         </h2>
         <div className="rounded-xl border border-background-400/25 bg-background-200/40 p-6 text-center text-xs text-typography-400">
@@ -79,7 +79,7 @@ export const DetailRecommendations = ({
 
   return (
     <section className="mb-10" aria-label="Recommendations">
-      <h2 className="text-sm font-bold uppercase tracking-wider text-typography-300 mb-3">
+      <h2 className="text-sm font-bold uppercase tracking-wider text-typography-100/80 mb-3">
         Recommendations
       </h2>
 

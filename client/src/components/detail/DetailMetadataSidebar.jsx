@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Tag, Building, User, Info } from "lucide-react";
 
 const formatDuration = (mins) => {
   if (!mins || mins <= 0) return null;
@@ -33,7 +32,13 @@ export const DetailMetadataSidebar = ({ anime }) => {
   const genres = Array.isArray(anime.genres) ? anime.genres : [];
 
   const metaItems = [
-    { label: "Format", value: anime.format },
+    {
+      label: "Format",
+      value: anime.format
+        ? anime.format.charAt(0).toUpperCase() +
+          anime.format.slice(1).toLowerCase()
+        : "Anime",
+    },
     { label: "Episodes", value: anime.episodes || null },
     { label: "Episode Duration", value: formatDuration(anime.duration) },
     { label: "Status", value: formatStatus(anime.status) },
@@ -49,139 +54,131 @@ export const DetailMetadataSidebar = ({ anime }) => {
     },
   ].filter((item) => item.value);
 
-  const altTitles = [
-    { label: "English", value: anime.titleEnglish },
+  const titles = [
     { label: "Romaji", value: anime.titleRomaji },
+    { label: "English", value: anime.titleEnglish },
     { label: "Native", value: anime.titleNative },
   ].filter((t) => t.value);
 
-  const creatorSections = [
-    { title: "Animation Studios", icon: Building, items: studios },
-    { title: "Series Directors", icon: User, items: directors },
-  ].filter((s) => s.items.length > 0);
-
   return (
-    <aside
-      className="w-full flex flex-col gap-6"
-      aria-label="Anime Information"
-    >
-      {/* Information Overview Card */}
-      <div className="rounded-2xl border border-background-400/25 bg-background-200/50 p-5 backdrop-blur-md">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-typography-300 flex items-center gap-1.5 mb-4 pb-2.5 border-b border-background-400/20">
-          <Info className="w-3.5 h-3.5 text-primary-300" />
-          <span>Information</span>
-        </h3>
-
-        {/* Metadata Details Grid */}
-        <div className="grid grid-cols-2 gap-3.5 text-xs">
-          {metaItems.map(({ label, value, className }) => (
-            <div key={label}>
-              <span className="text-[11px] uppercase tracking-wider text-typography-400 font-semibold block mb-0.5">
-                {label}
-              </span>
-              <span className={className || "font-medium text-typography-100"}>
-                {value}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Alternative Titles */}
-        {altTitles.length > 0 && (
-          <div className="mt-3.5 pt-3 border-t border-background-400/20">
-            <span className="text-[11px] uppercase tracking-wider text-typography-400 font-semibold block mb-2">
-              Alternative Titles
+    <aside className="w-full" aria-label="Anime Information">
+      {/* Single Unified Information Card */}
+      <div className="rounded-2xl border border-background-400/25 bg-background-200/50 p-4 sm:p-5 backdrop-blur-md flex flex-col gap-3.5 text-xs">
+        {/* Core Metadata Items (Single Column Stack) */}
+        {metaItems.map(({ label, value, className }) => (
+          <div key={label}>
+            <span className="text-[13px] font-medium text-typography-100/80 block mb-1.25">
+              {label}
             </span>
-            <div className="space-y-1.5 text-xs">
-              {altTitles.map(({ label, value }) => (
-                <div key={label} className="leading-snug">
-                  <span className="text-[10.5px] text-typography-400 font-medium mr-1.5">
-                    {label}:
-                  </span>
-                  <span className="text-typography-200">{value}</span>
-                </div>
+            <span className={className || "text-xs text-typography-400"}>
+              {value}
+            </span>
+          </div>
+        ))}
+
+        {/* Animation Studios */}
+        {studios.length > 0 && (
+          <div>
+            <span className="text-[13px] font-medium text-typography-100/80 block mb-1">
+              Studios
+            </span>
+            <div className="flex flex-col gap-1">
+              {studios.map((studio) => (
+                <Link
+                  key={studio}
+                  to={`/discover?search=${encodeURIComponent(studio)}`}
+                  className="text-xs text-typography-400 hover:text-primary-400 transition-colors cursor-pointer leading-snug"
+                >
+                  {studio}
+                </Link>
               ))}
             </div>
           </div>
         )}
 
-        {/* Animation Studios & Series Directors (Placed at the end of info) */}
-        {creatorSections.map(({ title, icon: Icon, items }) => (
-          <div
-            key={title}
-            className="mt-3.5 pt-3 border-t border-background-400/20"
-          >
-            <span className="text-[11px] uppercase tracking-wider text-typography-400 font-semibold flex items-center gap-1 mb-1.5">
-              <Icon className="w-3 h-3 text-primary-300" />
-              <span>{title}</span>
+        {/* Series Directors */}
+        {directors.length > 0 && (
+          <div>
+            <span className="text-[13px] font-medium text-typography-100/80 block mb-1">
+              Directors
             </span>
-            <div className="flex flex-wrap gap-1.5">
-              {items.map((item) => (
+            <div className="flex flex-col gap-1">
+              {directors.map((director) => (
                 <Link
-                  key={item}
-                  to={`/discover?search=${encodeURIComponent(item)}`}
-                  className="px-2 py-0.5 rounded-md bg-background-300/80 hover:bg-background-400/80 border border-background-400/30 text-xs text-typography-200 hover:text-typography-100 transition-colors cursor-pointer"
+                  key={director}
+                  to={`/discover?search=${encodeURIComponent(director)}`}
+                  className="text-xs text-typography-400 hover:text-primary-400 transition-colors cursor-pointer leading-snug"
                 >
-                  {item}
+                  {director}
                 </Link>
               ))}
             </div>
           </div>
-        ))}
-      </div>
+        )}
 
-      {/* Thematic Tags Card */}
-      {tags.length > 0 && (
-        <div className="rounded-2xl border border-background-400/25 bg-background-200/50 p-5 backdrop-blur-md">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-typography-300 flex items-center gap-1.5 mb-3.5 pb-2.5 border-b border-background-400/20">
-            <Tag className="w-3.5 h-3.5 text-primary-300" />
-            <span>Tags</span>
-          </h3>
-
-          <div className="flex flex-wrap gap-1.5">
-            {tags.map((tag) => {
-              const tagName = typeof tag === "string" ? tag : tag.name;
-              const tagRank =
-                typeof tag === "object" && tag.rank ? tag.rank : null;
-              return (
+        {/* Genres */}
+        {genres.length > 0 && (
+          <div>
+            <span className="text-[13px] font-medium text-typography-100/80 block mb-1.5">
+              Genres
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {genres.map((genre) => (
                 <Link
-                  key={tagName}
-                  to={`/discover?search=${encodeURIComponent(tagName)}`}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-background-300/60 hover:bg-background-300 border border-background-400/25 text-[11.5px] text-typography-300 hover:text-typography-100 hover:border-primary-400/40 transition-all cursor-pointer"
-                  title={`Search for anime tagged with "${tagName}"`}
+                  key={genre}
+                  to={`/discover?search=${encodeURIComponent(genre)}`}
+                  className="px-2 py-0.5 rounded-md bg-primary-500/10 hover:bg-primary-500/20 border border-primary-400/25 text-[11px] text-primary-200 hover:text-primary-100 transition-colors cursor-pointer"
                 >
-                  <span>#{tagName}</span>
-                  {tagRank && (
-                    <span className="text-[10.5px] text-typography-400 font-medium">
-                      {tagRank}%
-                    </span>
-                  )}
+                  {genre}
                 </Link>
-              );
-            })}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Genres */}
-      {genres.length > 0 && (
-        <div className="rounded-2xl border border-background-400/25 bg-background-200/50 p-5 backdrop-blur-md">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-typography-300 mb-3 pb-2 border-b border-background-400/20">
-            Genres
-          </h3>
-          <div className="flex flex-wrap gap-1.5">
-            {genres.map((genre) => (
-              <Link
-                key={genre}
-                to={`/discover?search=${encodeURIComponent(genre)}`}
-                className="px-2.5 py-0.75 rounded-md bg-primary-500/10 hover:bg-primary-500/20 border border-primary-400/25 text-xs text-primary-200 hover:text-primary-100 transition-colors cursor-pointer"
-              >
-                {genre}
-              </Link>
-            ))}
+        {/* Titles (Romaji, English, Native as individual items) */}
+        {titles.map(({ label, value }) => (
+          <div key={label}>
+            <span className="text-[13px] font-medium text-typography-100/80 block mb-0.5">
+              {label}
+            </span>
+            <span className="text-xs text-typography-400 leading-snug block">
+              {value}
+            </span>
           </div>
-        </div>
-      )}
+        ))}
+
+        {/* Thematic Tags */}
+        {tags.length > 0 && (
+          <div className="pt-1">
+            <span className="text-[11px] font-semibold text-typography-100/80 block mb-2">
+              Tags
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {tags.map((tag) => {
+                const tagName = typeof tag === "string" ? tag : tag.name;
+                const tagRank =
+                  typeof tag === "object" && tag.rank ? tag.rank : null;
+                return (
+                  <Link
+                    key={tagName}
+                    to={`/discover?search=${encodeURIComponent(tagName)}`}
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-background-300/60 hover:bg-background-300 border border-background-400/25 text-[11px] text-typography-300 hover:text-typography-100 transition-all cursor-pointer"
+                    title={`Search for anime tagged with "${tagName}"`}
+                  >
+                    <span>#{tagName}</span>
+                    {tagRank && (
+                      <span className="text-[10px] text-typography-400 font-medium">
+                        {tagRank}%
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
     </aside>
   );
 };

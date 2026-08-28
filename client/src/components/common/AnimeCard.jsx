@@ -13,7 +13,7 @@ export const AnimeCard = ({ anime }) => {
       className="group flex flex-col cursor-pointer"
     >
       {/* Compact Poster Container */}
-      <div className="relative aspect-2/3 w-full overflow-hidden rounded-lg bg-background-200 border border-background-400/25 group-hover:border-primary-400/60 transition-colors">
+      <div className="relative aspect-2/3 w-full overflow-hidden rounded-md bg-background-200 border border-background-400/25 group-hover:border-primary-400/60 transition-colors">
         {cover ? (
           <img
             src={cover}
@@ -47,13 +47,13 @@ export const AnimeCard = ({ anime }) => {
       {/* Compact Typography */}
       <div className="pt-2 flex flex-col gap-1">
         <h3
-          className="text-[15px] font-medium text-typography-100 line-clamp-2 leading-snug mt-0.5 group-hover:text-primary-300 transition-colors"
+          className="text-xs md:text-[13px] lg:text-sm font-medium text-typography-100 line-clamp-2 leading-snug mt-0.5 group-hover:text-primary-300 transition-colors"
           title={anime.titleEnglish || anime.titleRomaji}
         >
           {anime.titleEnglish || anime.titleRomaji}
         </h3>
 
-        <div className="flex items-center text-xs text-typography-300">
+        <div className="text-[11px] md:text-xs flex items-center text-xs text-typography-300">
           {`${anime.format || ""} • ${anime.seasonYear || ""}`}
         </div>
       </div>

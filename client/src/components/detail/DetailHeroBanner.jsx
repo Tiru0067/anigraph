@@ -1,17 +1,19 @@
-import { Link } from 'react-router-dom';
-import { ArrowLeft, Film } from 'lucide-react';
+import { Film } from "lucide-react";
 
 export const DetailHeroBanner = ({ anime }) => {
-  const cover = typeof anime.coverImage === 'string'
-    ? anime.coverImage
-    : (anime.coverImage?.extraLarge || anime.coverImage?.large || '');
+  const cover =
+    typeof anime.coverImage === "string"
+      ? anime.coverImage
+      : anime.coverImage?.extraLarge || anime.coverImage?.large || "";
 
   const banner = anime.bannerImage || cover;
 
   const quickStats = [
-    anime.format || 'Anime',
+    anime.format || "Anime",
     anime.seasonYear,
-    anime.episodes ? `${anime.episodes} ${anime.episodes === 1 ? 'Episode' : 'Episodes'}` : null
+    anime.episodes
+      ? `${anime.episodes} ${anime.episodes === 1 ? "Episode" : "Episodes"}`
+      : null,
   ].filter(Boolean);
 
   return (
@@ -21,7 +23,7 @@ export const DetailHeroBanner = ({ anime }) => {
         {banner ? (
           <img
             src={banner}
-            alt={anime.titleEnglish || anime.titleRomaji || 'Anime Banner'}
+            alt={anime.titleEnglish || anime.titleRomaji || "Anime Banner"}
             className="w-full h-full object-cover object-center opacity-90 sm:opacity-100"
           />
         ) : (
@@ -31,48 +33,37 @@ export const DetailHeroBanner = ({ anime }) => {
       </div>
 
       {/* Hero Content Container */}
-      <div className="max-w-7xl flex flex-col sm:flex-row sm:gap-5 mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="-mt-30 sm:-mt-28 md:-mt-35 lg:-mt-40">
-          {/* Navigation Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="mb-3">
-            <Link
-              to="/discover"
-              className="inline-flex items-center gap-1.5 text-shadow-lg text-xs font-medium text-typography-200 hover:text-typography-100 cursor-pointer"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Back to Discover</span>
-            </Link>
-          </nav>
-
-          {/* Poster Image */}
-          <div className="relative w-26 sm:w-32 md:w-46 aspect-2/3 shrink-0 rounded-md overflow-hidden bg-background-200">
-            {cover ? (
-              <img
-                src={cover}
-                alt={anime.titleEnglish || anime.titleRomaji || 'Anime Poster'}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-typography-400">
-                <Film className="w-8 h-8 opacity-40" />
-              </div>
-            )}
-          </div>
+      <div className="max-w-7xl flex flex-col sm:flex-row sm:gap-5 mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
+        {/* Poster Image */}
+        <div className="relative -mt-26 sm:-mt-18 lg:-mt-24">
+          {cover ? (
+            <img
+              src={cover}
+              alt={anime.titleEnglish || anime.titleRomaji || "Anime Poster"}
+              className="w-26 sm:w-32 md:w-36 lg:w-42 aspect-2/3 shrink-0 rounded-sm"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-typography-400">
+              <Film className="w-8 h-8 opacity-40" />
+            </div>
+          )}
         </div>
 
         {/* Titles & Quick Metadata */}
         <div className="flex-1 flex flex-col mt-5">
           {/* Main Title */}
-          <h1 className="text-lg sm:text-xl md:text-2xl font-extrabold font-display text-typography-100 tracking-tight mb-1 leading-tight">
+          <h1 className="text-md sm:text-lg md:text-xl font-semibold font-display text-typography-100 tracking-tight mb-1 leading-tight">
             {anime.titleEnglish || anime.titleRomaji}
           </h1>
 
           {/* Subtitle (Romaji / Native) */}
-          {anime.titleEnglish && anime.titleRomaji && anime.titleEnglish !== anime.titleRomaji && (
-            <p className="text-xs md:text-sm text-typography-300 mb-2 font-medium">
-              {anime.titleRomaji}
-            </p>
-          )}
+          {anime.titleEnglish &&
+            anime.titleRomaji &&
+            anime.titleEnglish !== anime.titleRomaji && (
+              <p className="text-xs md:text-sm text-typography-300 mb-2 font-medium">
+                {anime.titleRomaji}
+              </p>
+            )}
 
           {/* Quick Stats Badges */}
           {quickStats.length > 0 && (

@@ -27,7 +27,7 @@ export const DetailSynopsis = ({ description }) => {
 
   return (
     <section className="rounded-2xl border border-background-400/25 bg-background-200/50 p-6 mb-8 backdrop-blur-md">
-      <h2 className="text-sm font-bold uppercase tracking-wider text-typography-300 mb-3">
+      <h2 className="text-sm font-bold uppercase tracking-wider text-typography-100/80 mb-3">
         Synopsis
       </h2>
 

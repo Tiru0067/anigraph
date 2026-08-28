@@ -118,26 +118,31 @@ export const AnimeDetailPage = () => {
       <DetailHeroBanner anime={anime} />
 
       {/* Main Content Layout */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mt-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Area (Synopsis, Graph Recommendations, Character Cast) */}
-          <div className="lg:col-span-2 flex flex-col">
-            {/* Synopsis */}
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 w-full mt-6">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+          {/* Left Column on Desktop (md: and above): Narrow Sidebar directly under poster */}
+          <div className="hidden md:block w-52 sm:w-56 md:w-60 lg:w-64 shrink-0">
+            <DetailMetadataSidebar anime={anime} />
+          </div>
+
+          {/* Right Column (or Main Flow on Mobile) */}
+          <div className="flex-1 min-w-0 flex flex-col w-full">
+            {/* 1. Synopsis */}
             <DetailSynopsis description={anime.description} />
 
-            {/* Multi-Hop Graph Recommendations */}
+            {/* 2. Metadata Sidebar (Mobile only: placed after synopsis) */}
+            <div className="block md:hidden mb-8">
+              <DetailMetadataSidebar anime={anime} />
+            </div>
+
+            {/* 3. Cast & Voice Actors */}
+            <DetailCastList cast={anime.cast} />
+
+            {/* 4. Recommendations */}
             <DetailRecommendations
               recommendations={recommendations}
               loading={recLoading}
             />
-
-            {/* Cast & Voice Actors */}
-            <DetailCastList cast={anime.cast} />
-          </div>
-
-          {/* Sidebar Area (Graph Node Metadata, Studios, Directors, Tags) */}
-          <div className="lg:col-span-1">
-            <DetailMetadataSidebar anime={anime} />
           </div>
         </div>
       </main>

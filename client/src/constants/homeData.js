@@ -17,8 +17,8 @@ export const FALLBACK_ANIME = [
     titleRomaji: "Sousou no Frieren",
     titleEnglish: "Frieren: Beyond Journey's End",
     coverImage:
-      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx154587-n1fmjvsrJCY5.jpg",
-    averageScore: 93,
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx154587-qQTzQnEJJ3oB.jpg",
+    averageScore: 91,
     format: "TV",
     seasonYear: 2023,
     studios: ["Madhouse"],
@@ -39,7 +39,7 @@ export const FALLBACK_ANIME = [
     titleRomaji: "Hagane no Renkinjutsushi: FULLMETAL ALCHEMIST",
     titleEnglish: "Fullmetal Alchemist: Brotherhood",
     coverImage:
-      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx5114-18SpdaogizVn.jpg",
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx5114-nSWCgQlmOMtj.jpg",
     averageScore: 90,
     format: "TV",
     seasonYear: 2009,
@@ -50,8 +50,8 @@ export const FALLBACK_ANIME = [
     titleRomaji: "Chainsaw Man",
     titleEnglish: "Chainsaw Man",
     coverImage:
-      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx127230-FloXNczZrFjd.png",
-    averageScore: 84,
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx127230-DdP4vAdssLoz.png",
+    averageScore: 83,
     format: "TV",
     seasonYear: 2022,
     studios: ["MAPPA"],
@@ -61,7 +61,7 @@ export const FALLBACK_ANIME = [
     titleRomaji: "Steins;Gate",
     titleEnglish: "Steins;Gate",
     coverImage:
-      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx9253-159i58uhb9ee.jpg",
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx9253-tIUXF2gfU8Sg.jpg",
     averageScore: 89,
     format: "TV",
     seasonYear: 2011,
@@ -69,10 +69,10 @@ export const FALLBACK_ANIME = [
   },
   {
     id: 1535,
-    titleRomaji: "Death Note",
+    titleRomaji: "DEATH NOTE",
     titleEnglish: "Death Note",
     coverImage:
-      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1535-lawZEMV2H7aZ.jpg",
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1535-kUgkcrfOrkUM.jpg",
     averageScore: 84,
     format: "TV",
     seasonYear: 2006,
@@ -94,7 +94,7 @@ export const FALLBACK_ANIME = [
     titleRomaji: "Code Geass: Hangyaku no Lelouch",
     titleEnglish: "Code Geass: Lelouch of the Rebellion",
     coverImage:
-      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1575-P7iJ532h1Rsz.png",
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1575-REPLACE.jpg",
     averageScore: 85,
     format: "TV",
     seasonYear: 2006,
@@ -102,10 +102,10 @@ export const FALLBACK_ANIME = [
   },
   {
     id: 11061,
-    titleRomaji: "Hunter x Hunter (2011)",
+    titleRomaji: "HUNTER×HUNTER (2011)",
     titleEnglish: "Hunter x Hunter (2011)",
     coverImage:
-      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx11061-sIpBprNRgkx1.jpg",
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx11061-REPLACE.jpg",
     averageScore: 89,
     format: "TV",
     seasonYear: 2011,
@@ -116,18 +116,18 @@ export const FALLBACK_ANIME = [
     titleRomaji: "Kimetsu no Yaiba",
     titleEnglish: "Demon Slayer: Kimetsu no Yaiba",
     coverImage:
-      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101922-PEn1CTyeRJb3.png",
-    averageScore: 84,
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101922-WBsBl0ClmgYL.jpg",
+    averageScore: 83,
     format: "TV",
     seasonYear: 2019,
     studios: ["ufotable"],
   },
   {
     id: 101348,
-    titleRomaji: "Vinland Saga",
+    titleRomaji: "VINLAND SAGA",
     titleEnglish: "Vinland Saga",
     coverImage:
-      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101348-1U6kErTj4p0F.jpg",
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101348-REPLACE.jpg",
     averageScore: 88,
     format: "TV",
     seasonYear: 2019,
@@ -135,10 +135,10 @@ export const FALLBACK_ANIME = [
   },
   {
     id: 120377,
-    titleRomaji: "Cyberpunk: EDGERUNNERS",
+    titleRomaji: "Cyberpunk: Edgerunners",
     titleEnglish: "Cyberpunk: Edgerunners",
     coverImage:
-      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx120377-6k2Ew1G02mBf.jpg",
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx120377-REPLACE.jpg",
     averageScore: 85,
     format: "ONA",
     seasonYear: 2022,
@@ -149,8 +149,8 @@ export const FALLBACK_ANIME = [
     titleRomaji: "Jujutsu Kaisen",
     titleEnglish: "Jujutsu Kaisen",
     coverImage:
-      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx113415-bbBWj4pQC3DE.jpg",
-    averageScore: 85,
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx113415-LHBAeoZDIsnF.jpg",
+    averageScore: 84,
     format: "TV",
     seasonYear: 2020,
     studios: ["MAPPA"],
@@ -160,7 +160,7 @@ export const FALLBACK_ANIME = [
     titleRomaji: "Violet Evergarden",
     titleEnglish: "Violet Evergarden",
     coverImage:
-      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21827-0402b8x2f1.jpg",
+      "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21827-REPLACE.jpg",
     averageScore: 85,
     format: "TV",
     seasonYear: 2018,
