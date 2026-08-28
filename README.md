@@ -34,16 +34,28 @@ Graph recommendations ranked with tag-rank weighted match scores, structured rea
 
 ---
 
+## Video Walkthrough
+
+A 90-second end-to-end demonstration covering the live search, catalog filtering, knowledge graph metadata sidebar, and explainable multi-hop recommendations.
+
+<video src="docs/demo.mp4" controls="controls" width="100%">
+  Your browser does not support the video tag.
+</video>
+
+---
+
 ## Table of Contents
 
-1. [Why a Graph Database?](#why-a-graph-database)
-2. [Graph Data Model](#graph-data-model)
-3. [Core Graph Queries Explained](#core-graph-queries-explained)
-4. [Tech Stack](#tech-stack)
-5. [Project Structure](#project-structure)
-6. [Setup and Run Instructions](#setup-and-run-instructions)
-7. [API Endpoints](#api-endpoints)
-8. [Demo and Submission Links](#demo-and-submission-links)
+1. [Video Walkthrough](#video-walkthrough)
+2. [Visual Showcase](#visual-showcase)
+3. [Why a Graph Database?](#why-a-graph-database)
+4. [Graph Data Model](#graph-data-model)
+5. [Core Graph Queries Explained](#core-graph-queries-explained)
+6. [Tech Stack](#tech-stack)
+7. [Project Structure](#project-structure)
+8. [Setup and Run Instructions](#setup-and-run-instructions)
+9. [API Endpoints](#api-endpoints)
+10. [Demo and Submission Links](#demo-and-submission-links)
 
 ---
 
@@ -362,5 +374,7 @@ Frontend application will launch at **`http://localhost:5173`**.
 
 ## Demo and Submission Links
 
-- **Backend API Live Service**: https://anigraph-server.onrender.com
 - **Frontend Live Demo**: https://anigraph-client.onrender.com
+- **Backend API Live Service**: https://anigraph-server.onrender.com
+- **Walkthrough Video**: [Watch Demo Walkthrough (docs/demo.mp4)](docs/demo.mp4)
+- **GitHub Repository**: https://github.com/Tiru0067/AniGraph
