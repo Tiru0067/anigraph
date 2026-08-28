@@ -38,9 +38,7 @@ Graph recommendations ranked with tag-rank weighted match scores, structured rea
 
 A 90-second end-to-end demonstration covering the live search, catalog filtering, knowledge graph metadata sidebar, and explainable multi-hop recommendations.
 
-<video src="docs/demo.mp4" controls="controls" width="100%">
-  Your browser does not support the video tag.
-</video>
+https://github.com/user-attachments/assets/32ca7f3d-d86b-4f7c-97c0-3025516e4c54
 
 ---
 
@@ -376,5 +374,5 @@ Frontend application will launch at **`http://localhost:5173`**.
 
 - **Frontend Live Demo**: https://anigraph-client.onrender.com
 - **Backend API Live Service**: https://anigraph-server.onrender.com
-- **Walkthrough Video**: [Watch Demo Walkthrough (docs/demo.mp4)](docs/demo.mp4)
+- **Walkthrough Video**: [Watch Demo Walkthrough](https://github.com/user-attachments/assets/32ca7f3d-d86b-4f7c-97c0-3025516e4c54)
 - **GitHub Repository**: https://github.com/Tiru0067/AniGraph
